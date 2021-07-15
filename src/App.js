@@ -1,7 +1,16 @@
 import React from 'react';
 
+import { AppProvider } from './contexts';
+import { Home } from './pages';
+
+require('dotenv').config();
+
 const App = () => {
-  return <div>Holi!</div>;
+  return (
+    <AppProvider>
+      <Home />
+    </AppProvider>
+  );
 };
 
 export default App;

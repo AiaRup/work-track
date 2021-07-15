@@ -1,7 +1,12 @@
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 
 const Login = () => {
-  return <div>Login</div>;
+  return (
+    <div>
+      <FormattedMessage id='ok' />
+    </div>
+  );
 };
 
 export default Login;

@@ -1,3 +1,5 @@
+import { getTranslation } from '../i18n';
+
 export const reducer = (state, action) => {
   const { type, payload } = action;
 
@@ -15,7 +17,8 @@ export const reducer = (state, action) => {
     case 'SET_LANGUAGE':
       return {
         ...state,
-        language: payload
+        language: payload,
+        translations: getTranslation(payload)
       };
     default:
       return state;

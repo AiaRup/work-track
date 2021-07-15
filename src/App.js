@@ -1,14 +1,14 @@
 import React from 'react';
 
 import { AppProvider } from './contexts';
-import { Home } from './pages';
+import { Router } from './Router';
 
 require('dotenv').config();
 
 const App = () => {
   return (
     <AppProvider>
-      <Home />
+      <Router />
     </AppProvider>
   );
 };

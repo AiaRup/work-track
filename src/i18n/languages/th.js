@@ -9,15 +9,15 @@ const translations = {
   next: 'ต่อไป',
   error: 'ผิดพลาด',
   all: 'ทั้งหมด',
-  logout: 'ออกจากระบบ',
 
   // login form
   password: 'รหัสผ่าน',
   username: 'ชื่อผู้ใช้',
-  login: 'เข้าสู่ระบบ',
   forgotPassword: 'ลืมรหัสผ่าน',
   rememberMe: 'จดจำฉัน',
   registerNow: 'สมัครตอนนี้',
+  logout: 'ออกจากระบบ',
+  login: 'เข้าสู่ระบบ',
 
   // register form
   email: 'อีเมล',

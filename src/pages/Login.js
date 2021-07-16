@@ -11,7 +11,7 @@ const Login = () => {
             class='text-center text-4xl text-indigo-900 font-display font-semibold xl:text-5xl
             xl:text-bold'
           >
-            Log in
+            <FormattedMessage id='login' />
           </h2>
           <div class='mt-12'>
             <form>

@@ -9,15 +9,15 @@ const translations = {
   next: 'Next',
   error: 'Error',
   all: 'All',
-  logout: 'Log Out',
 
   // login form
   password: 'Password',
   username: 'Username',
-  login: 'Login',
   forgotPassword: 'Forgot password',
   rememberMe: 'Remember me',
   registerNow: 'Register now',
+  logout: 'Log Out',
+  login: 'Log in',
 
   // register form
   email: 'Email',

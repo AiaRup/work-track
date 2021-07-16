@@ -7,7 +7,7 @@ import { reducer } from '../reducers';
 export const AppContext = createContext();
 
 export const initialState = {
-  user: null,
+  user: true,
   language: 'en',
   translations: getTranslation('en')
 };

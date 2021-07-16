@@ -98,9 +98,7 @@ export default function SignIn() {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <CopyRight />
-      </Box>
+
     </Container>
   );
 }

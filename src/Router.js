@@ -1,5 +1,11 @@
 import React, { useContext, lazy, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Dashboard from '@material-ui/icons/Dashboard';
+import Person from '@material-ui/icons/Person';
+
+// import DashboardPage from 'views/Dashboard/Dashboard.js';
+// import UserProfile from 'views/UserProfile/UserProfile.js';
+// import TableList from 'views/TableList/TableList.js';
 
 import { AppContext } from './contexts';
 
@@ -21,6 +27,30 @@ export const routes = [
     component: NotFound,
     parent: 'home',
     exact: false
+  }
+];
+
+export const dashboardRoutes = [
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    icon: Dashboard,
+    component: NotFound,
+    layout: '/admin'
+  },
+  {
+    path: '/user',
+    name: 'User Profile',
+    icon: Person,
+    component: NotFound,
+    layout: '/admin'
+  },
+  {
+    path: '/table',
+    name: 'Table List',
+    icon: 'content_paste',
+    component: NotFound,
+    layout: '/admin'
   }
 ];
 

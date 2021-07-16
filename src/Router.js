@@ -36,21 +36,21 @@ export const dashboardRoutes = [
     name: 'Dashboard',
     icon: Dashboard,
     component: NotFound,
-    layout: '/admin'
+    layout: '/home'
   },
   {
     path: '/user',
     name: 'User Profile',
     icon: Person,
     component: NotFound,
-    layout: '/admin'
+    layout: '/home'
   },
   {
     path: '/table',
     name: 'Table List',
     icon: 'content_paste',
     component: NotFound,
-    layout: '/admin'
+    layout: '/home'
   }
 ];
 

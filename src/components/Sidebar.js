@@ -15,7 +15,6 @@ const useStyles = makeStyles(styles);
 
 export const Sidebar = ({
   color,
-  logo,
   image,
   logoText,
   routes,
@@ -88,9 +87,6 @@ export const Sidebar = ({
         })}
         target='_blank'
       >
-        <div className={classes.logoImage}>
-          <img src={logo} alt='logo' className={classes.img} />
-        </div>
         {logoText}
       </a>
     </div>

@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { AppContext } from './contexts';
 
 const Login = lazy(async () => await import('./pages/Login'));
+const SignUp = lazy(async () => await import('./pages/SignUp'));
 const Home = lazy(async () => await import('./pages/Home'));
 const NotFound = <div>Not Found</div>;
 
@@ -44,7 +45,8 @@ export const Router = () => {
           </Switch>
         ) : (
           <Switch>
-            <Route path='/' component={Login} />
+            <Route path='/signup' component={SignUp} />
+            <Route exect path='/' component={Login} />
           </Switch>
         )}
       </BrowserRouter>

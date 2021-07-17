@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -7,14 +7,12 @@ import { dashboardRoutes } from '../Router.js';
 import styles from '../assets/jss/material-dashboard-react/layouts/adminStyle.js';
 import bgImage from '../assets/img/sidebar-2.jpg';
 
-import { Modal, Tabs } from '../components';
-
 const useStyles = makeStyles(styles);
 
 const switchRoutes = (
   <Switch>
     {dashboardRoutes.map((prop, key) => {
-      if (prop.layout === '/admin') {
+      if (prop.layout === '/home') {
         return (
           <Route
             path={prop.layout + prop.path}
@@ -25,12 +23,11 @@ const switchRoutes = (
       }
       return null;
     })}
-    <Redirect from='/admin' to='/admin/dashboard' />
+    <Redirect from='/home' to='/home/dashboard' />
   </Switch>
 );
 
-const Home = ({ ...rest }) => {
-  const [modalVisible, setmodalVisible] = useState(true);
+export const Home = ({ ...rest }) => {
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -58,33 +55,30 @@ const Home = ({ ...rest }) => {
     };
   }, [mainPanel]);
   return (
-    <>
-      <div className={classes.wrapper}>
-        <Sidebar
+    <div className={classes.wrapper}>
+      <Sidebar
+        routes={dashboardRoutes}
+        logoText={'Work Tracker'}
+        image={image}
+        handleDrawerToggle={handleDrawerToggle}
+        open={mobileOpen}
+        color={color}
+        {...rest}
+      />
+      <div className={classes.mainPanel} ref={mainPanel}>
+        <Navbar
           routes={dashboardRoutes}
-          logoText={'Work Tracker'}
-          image={image}
           handleDrawerToggle={handleDrawerToggle}
-          open={mobileOpen}
-          color={color}
           {...rest}
         />
-        <div className={classes.mainPanel} ref={mainPanel}>
-          <Navbar
-            routes={dashboardRoutes}
-            handleDrawerToggle={handleDrawerToggle}
-            {...rest}
-          />
 
-          <div className={classes.content}>
-            <div className={classes.container}>{switchRoutes}</div>
-          </div>
-
-          <Footer />
+        <div className={classes.content}>
+          <div className={classes.container}>{switchRoutes}</div>
         </div>
+
+        <Footer />
       </div>
-      <Modal visible={modalVisible} />
-    </>
+    </div>
   );
 };
 

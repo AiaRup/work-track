@@ -4,8 +4,8 @@ import {
   dangerColor,
   grayColor
 } from '../../material-dashboard-react.js';
-import tooltipStyle from 'assets/jss/material-dashboard-react/tooltipStyle.js';
-import checkboxAdnRadioStyle from 'assets/jss/material-dashboard-react/checkboxAdnRadioStyle.js';
+import tooltipStyle from '../tooltipStyle.js';
+import checkboxAdnRadioStyle from '../checkboxAdnRadioStyle.js';
 const tasksStyle = {
   ...tooltipStyle,
   ...checkboxAdnRadioStyle,
@@ -21,7 +21,8 @@ const tasksStyle = {
     display: 'flex',
     border: 'none',
     padding: '12px 8px !important',
-    verticalAlign: 'middle'
+    verticalAlign: 'middle',
+    justifyContent: 'flex-end'
   },
   tableCell: {
     ...defaultFont,
@@ -52,6 +53,9 @@ const tasksStyle = {
     backgroundColor: 'transparent',
     color: dangerColor[0],
     boxShadow: 'none'
+  },
+  bold: {
+    fontWeight: 'bold'
   }
 };
 export default tasksStyle;

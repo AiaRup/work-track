@@ -1,9 +1,9 @@
 import React, { useContext, lazy, Suspense } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Dashboard from '@material-ui/icons/Dashboard';
 import Person from '@material-ui/icons/Person';
 
-// import DashboardPage from 'views/Dashboard/Dashboard.js';
+import { Dashboard as DashboardPage } from './views';
 // import UserProfile from 'views/UserProfile/UserProfile.js';
 // import TableList from 'views/TableList/TableList.js';
 
@@ -17,16 +17,9 @@ const NotFound = <div>Not Found</div>;
 export const routes = [
   {
     name: 'home',
-    path: '/',
+    path: '/home',
     component: Home,
     exact: true
-  },
-  {
-    name: 'not-found',
-    path: '*',
-    component: NotFound,
-    parent: 'home',
-    exact: false
   }
 ];
 
@@ -35,7 +28,7 @@ export const dashboardRoutes = [
     path: '/dashboard',
     name: 'Dashboard',
     icon: Dashboard,
-    component: NotFound,
+    component: DashboardPage,
     layout: '/home'
   },
   {
@@ -62,16 +55,8 @@ export const Router = () => {
       <BrowserRouter>
         {user ? (
           <Switch>
-            {routes.map((route) => (
-              <Route
-                key={route.name}
-                path={route.path}
-                exact={route.exact}
-                render={(props) => (
-                  <route.component {...props} {...route.props} route={route} />
-                )}
-              />
-            ))}
+            <Route path='/home' component={Home} />
+            <Redirect from='/' to='/home/dashboard' />
           </Switch>
         ) : (
           <Switch>

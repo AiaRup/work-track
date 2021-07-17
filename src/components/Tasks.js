@@ -7,8 +7,9 @@ import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import Edit from '@material-ui/icons/Edit';
-import Delete from '@material-ui/icons/DeleteForever';
+import Edit from '@material-ui/icons/EditOutlined';
+import Delete from '@material-ui/icons/DeleteForeverOutlined';
+
 import styles from '../assets/jss/material-dashboard-react/components/tasksStyle.js';
 
 const useStyles = makeStyles(styles);

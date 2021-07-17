@@ -79,16 +79,13 @@ export const Sidebar = ({
   );
   var brand = (
     <div className={classes.logo}>
-      <a
-        rel='noreferrer'
-        href='https://www.creative-tim.com?ref=mdr-sidebar'
+      <span
         className={classNames(classes.logoLink, {
           [classes.logoLinkRTL]: rtlActive
         })}
-        target='_blank'
       >
         {logoText}
-      </a>
+      </span>
     </div>
   );
   return (

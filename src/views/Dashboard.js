@@ -17,7 +17,8 @@ import {
   CustomTabs,
   Tasks,
   FloatingButton,
-  Modal
+  Modal,
+  CardBody
 } from '../components';
 
 import { bugs, website, hours } from '../variables/general.js';
@@ -66,7 +67,7 @@ export const Dashboard = () => {
               <CardIcon color='info'>
                 <AccessibilityNewIcon />
               </CardIcon>
-              <p className={classes.cardCategory}>Today Massages</p>
+              <p className={classes.cardCategory}>Minutes</p>
               <h3 className={classes.cardTitle}>{totalMinutes}</h3>
             </CardHeader>
             <CardFooter stats>
@@ -80,35 +81,20 @@ export const Dashboard = () => {
       </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
-          <CustomTabs
-            title='Tasks:'
-            headerColor='primary'
-            tabs={[
-              {
-                tabName: 'Bugs',
-                tabIcon: BugReport,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0, 3]}
-                    tasksIndexes={[0, 1, 2, 3]}
-                    tasks={bugs}
-                    hours={hours}
-                  />
-                )
-              },
-              {
-                tabName: 'Website',
-                tabIcon: Code,
-                tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
-                    tasks={website}
-                  />
-                )
-              }
-            ]}
-          />
+          <Card>
+            <CardHeader color='primary'>
+              <h4 className={classes.cardTitleWhite}>Massages</h4>
+              <p className={classes.cardCategoryWhite}>17/07/2021</p>
+            </CardHeader>
+            <CardBody>
+              <Tasks
+                checkedIndexes={[0, 3]}
+                tasksIndexes={[0, 1, 2, 3]}
+                tasks={bugs}
+                hours={hours}
+              />
+            </CardBody>
+          </Card>
         </GridItem>
       </GridContainer>
       <FloatingButton onClick={() => setModalVisible(true)} />

@@ -12,12 +12,11 @@ export const FloatingButton = ({ onClick }) => {
   return (
     <Fab
       size='medium'
-      color='secondary'
       aria-label='add'
       className={classes.floatingButton}
       onClick={onClick}
     >
-      <AddIcon />
+      <AddIcon style={{ color: '#FFF' }} />
     </Fab>
   );
 };

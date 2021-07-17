@@ -32,16 +32,16 @@ export const dashboardRoutes = [
     layout: '/home'
   },
   {
-    path: '/user',
-    name: 'User Profile',
-    icon: Person,
+    path: '/summary',
+    name: 'Summary',
+    icon: 'content_paste',
     component: NotFound,
     layout: '/home'
   },
   {
-    path: '/table',
-    name: 'Table List',
-    icon: 'content_paste',
+    path: '/user',
+    name: 'Profile',
+    icon: Person,
     component: NotFound,
     layout: '/home'
   }

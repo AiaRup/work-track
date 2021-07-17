@@ -1,5 +1,4 @@
 export { CustomModal as Modal } from './Modal';
-export { TabsMenu as Tabs } from './Tabs';
 export { FloatingButton } from './FloatingButton';
 export { Footer } from './Footer';
 export { Sidebar } from './Sidebar';

@@ -3,16 +3,13 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Dashboard from '@material-ui/icons/Dashboard';
 import Person from '@material-ui/icons/Person';
 
-import { Dashboard as DashboardPage } from './views';
-// import UserProfile from 'views/UserProfile/UserProfile.js';
-// import TableList from 'views/TableList/TableList.js';
+import { Dashboard as DashboardPage, Profile, Summary } from './views';
 
 import { AppContext } from './contexts';
 
 const Login = lazy(async () => await import('./pages/Login'));
 const SignUp = lazy(async () => await import('./pages/SignUp'));
 const Home = lazy(async () => await import('./pages/Home'));
-const NotFound = <div>Not Found</div>;
 
 export const routes = [
   {
@@ -35,14 +32,14 @@ export const dashboardRoutes = [
     path: '/summary',
     name: 'Summary',
     icon: 'content_paste',
-    component: NotFound,
+    component: Summary,
     layout: '/home'
   },
   {
     path: '/user',
     name: 'Profile',
     icon: Person,
-    component: NotFound,
+    component: Profile,
     layout: '/home'
   }
 ];

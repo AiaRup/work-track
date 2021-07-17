@@ -32,7 +32,6 @@ export const Dashboard = () => {
   const handleMassageInsert = ({ massageType, massageMinutes, id }) => {
     setModalVisible(false);
     // if massage exists, update it
-    console.log('insert, ', { massageType, massageMinutes, id });
     if (id) {
       const updateMassage = todayMassages.find((item) => item.id === id);
       updateMassage.massageType = massageType;
@@ -52,7 +51,6 @@ export const Dashboard = () => {
   };
 
   const handleMassageEdit = (item) => {
-    console.log('edit', item);
     setMassageEditable(item);
     setModalVisible(true);
   };

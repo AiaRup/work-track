@@ -36,7 +36,6 @@ export const CustomModal = ({
     setMassageMinutes(event.target.value);
   };
 
-  console.log('modal', { massageMinutes, massageType });
   const classes = useStyles();
   return (
     <Dialog

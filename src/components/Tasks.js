@@ -14,14 +14,7 @@ import styles from '../assets/jss/material-dashboard-react/components/tasksStyle
 
 const useStyles = makeStyles(styles);
 
-export const Tasks = ({
-  tasksIndexes,
-  tasks,
-  hours,
-  rtlActive,
-  onDelete,
-  onEdit
-}) => {
+export const Tasks = ({ tasks, rtlActive, onDelete, onEdit }) => {
   const classes = useStyles();
   const tableCellClasses = classnames(classes.tableCell, {
     [classes.tableCellRTL]: rtlActive
@@ -29,11 +22,13 @@ export const Tasks = ({
   return (
     <Table className={classes.table}>
       <TableBody>
-        {tasksIndexes.map((value) => (
-          <TableRow key={value} className={classes.tableRow}>
-            <TableCell className={tableCellClasses}>{tasks[value]}</TableCell>
+        {tasks.map((task) => (
+          <TableRow key={task.id} className={classes.tableRow}>
+            <TableCell className={tableCellClasses}>
+              {task.massageType}
+            </TableCell>
             <TableCell className={tableCellClasses + classes.bold}>
-              {hours[value]}
+              {task.massageMinutes}
             </TableCell>
             <TableCell className={classes.tableActions}>
               <Tooltip
@@ -45,7 +40,7 @@ export const Tasks = ({
                 <IconButton
                   aria-label='Edit'
                   className={classes.tableActionButton}
-                  onClick={() => onEdit(tasks[value])}
+                  onClick={() => onEdit(task)}
                 >
                   <Edit
                     className={
@@ -63,7 +58,7 @@ export const Tasks = ({
                 <IconButton
                   aria-label='Close'
                   className={classes.tableActionButton}
-                  onClick={() => onDelete(tasks[value])}
+                  onClick={() => onDelete(task.id)}
                 >
                   <Delete
                     className={
@@ -75,6 +70,11 @@ export const Tasks = ({
             </TableCell>
           </TableRow>
         ))}
+        {!tasks.length && (
+          <TableRow className={classes.tableRow}>
+            <TableCell className={tableCellClasses}>List is empty</TableCell>
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   );

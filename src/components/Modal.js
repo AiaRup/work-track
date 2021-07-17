@@ -18,9 +18,16 @@ import styles from '../assets/jss/material-dashboard-react/components/modalStyle
 
 const useStyles = makeStyles(styles);
 
-export const CustomModal = ({ visible, onOk, onClose }) => {
-  const [massageMinutes, setMassageMinutes] = useState(null);
-  const [massageType, setMassageType] = useState(null);
+export const CustomModal = ({
+  visible,
+  onOk,
+  onClose,
+  massageEditable = {}
+}) => {
+  const [massageMinutes, setMassageMinutes] = useState(
+    massageEditable.massageMinutes || ''
+  );
+  const [massageType, setMassageType] = useState(massageEditable.type || '');
 
   const handleTypeChange = (event) => {
     setMassageType(event.target.value);
@@ -29,6 +36,7 @@ export const CustomModal = ({ visible, onOk, onClose }) => {
     setMassageMinutes(event.target.value);
   };
 
+  console.log('modal', { massageMinutes, massageType });
   const classes = useStyles();
   return (
     <Dialog
@@ -38,7 +46,7 @@ export const CustomModal = ({ visible, onOk, onClose }) => {
       className={classes.modal}
     >
       <DialogTitle disableTypography className={classes.title}>
-        <Typography variant='h6'>Insert a new listing</Typography>
+        <Typography variant='h6'>New Massage</Typography>
         {onClose ? (
           <IconButton
             aria-label='close'
@@ -86,7 +94,7 @@ export const CustomModal = ({ visible, onOk, onClose }) => {
         <Button
           autoFocus
           onClick={() => {
-            onOk({ massageType, massageMinutes });
+            onOk({ massageType, massageMinutes, id: massageEditable.id });
             setMassageMinutes(null);
             setMassageType(null);
           }}

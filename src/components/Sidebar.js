@@ -15,7 +15,6 @@ const useStyles = makeStyles(styles);
 
 export const Sidebar = ({
   color,
-  image,
   logoText,
   routes,
   rtlActive,
@@ -107,12 +106,6 @@ export const Sidebar = ({
         >
           {brand}
           <div className={classes.sidebarWrapper}>{links}</div>
-          {image !== undefined ? (
-            <div
-              className={classes.background}
-              style={{ backgroundImage: 'url(' + image + ')' }}
-            />
-          ) : null}
         </Drawer>
       </Hidden>
       <Hidden smDown implementation='css'>
@@ -128,12 +121,6 @@ export const Sidebar = ({
         >
           {brand}
           <div className={classes.sidebarWrapper}>{links}</div>
-          {image !== undefined ? (
-            <div
-              className={classes.background}
-              style={{ backgroundImage: 'url(' + image + ')' }}
-            />
-          ) : null}
         </Drawer>
       </Hidden>
     </div>

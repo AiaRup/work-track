@@ -4,8 +4,7 @@ import Money from '@material-ui/icons/Money';
 import DateRange from '@material-ui/icons/DateRange';
 import Update from '@material-ui/icons/Update';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
-import BugReport from '@material-ui/icons/BugReport';
-import Code from '@material-ui/icons/Code';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
   GridItem,
@@ -14,14 +13,12 @@ import {
   CardHeader,
   CardIcon,
   CardFooter,
-  CustomTabs,
   Tasks,
   FloatingButton,
   Modal,
   CardBody
 } from '../components';
 
-import { bugs, website, hours } from '../variables/general.js';
 import styles from '../assets/jss/material-dashboard-react/views/dashboardStyle.js';
 
 const useStyles = makeStyles(styles);
@@ -29,16 +26,51 @@ const useStyles = makeStyles(styles);
 export const Dashboard = () => {
   const classes = useStyles();
   const [modalVisible, setModalVisible] = useState(false);
-  const [totalMinutes, setTotalMinutes] = useState(0);
-  const [totalMoney, setTotalMoney] = useState(0);
   const [todayMassages, setTodayMassages] = useState([]);
+  const [massageEditable, setMassageEditable] = useState({});
 
-  const handleMassageInsert = ({ massageType, massageMinutes }) => {
-    const totalMin = totalMinutes + massageMinutes;
+  const handleMassageInsert = ({ massageType, massageMinutes, id }) => {
     setModalVisible(false);
-    setTotalMinutes(totalMin);
-    setTodayMassages([...todayMassages, { massageMinutes, massageType }]);
-    setTotalMoney((totalMin / 60) * 100);
+    // if massage exists, update it
+    console.log('insert, ', { massageType, massageMinutes, id });
+    if (id) {
+      const updateMassage = todayMassages.find((item) => item.id === id);
+      updateMassage.massageType = massageType;
+      updateMassage.massageMinutes = massageMinutes;
+      setTodayMassages(todayMassages);
+      setMassageEditable({});
+    } else {
+      setTodayMassages([
+        ...todayMassages,
+        { massageMinutes, massageType, id: uuidv4() }
+      ]);
+    }
+  };
+
+  const handleMassageDelete = (id) => {
+    setTodayMassages(todayMassages.filter((item) => item.id !== id));
+  };
+
+  const handleMassageEdit = (item) => {
+    console.log('edit', item);
+    setMassageEditable(item);
+    setModalVisible(true);
+  };
+
+  const calculateTotalMoney = () => {
+    let total = 0;
+    for (const element of todayMassages) {
+      total += element.massageMinutes;
+    }
+    return (total / 60) * 100;
+  };
+
+  const calculateTotalMinutes = () => {
+    let total = 0;
+    for (const element of todayMassages) {
+      total += element.massageMinutes;
+    }
+    return total;
   };
 
   return (
@@ -51,7 +83,9 @@ export const Dashboard = () => {
                 <Money />
               </CardIcon>
               <p className={classes.cardCategory}>Money</p>
-              <h3 className={classes.cardTitle}>{totalMoney}&#8362;</h3>
+              <h3 className={classes.cardTitle}>
+                {calculateTotalMoney()}&#8362;
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -68,12 +102,12 @@ export const Dashboard = () => {
                 <AccessibilityNewIcon />
               </CardIcon>
               <p className={classes.cardCategory}>Minutes</p>
-              <h3 className={classes.cardTitle}>{totalMinutes}</h3>
+              <h3 className={classes.cardTitle}>{calculateTotalMinutes()}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                hours: {totalMinutes / 60}/h
+                Hours: {calculateTotalMinutes() / 60}/h
               </div>
             </CardFooter>
           </Card>
@@ -88,10 +122,9 @@ export const Dashboard = () => {
             </CardHeader>
             <CardBody>
               <Tasks
-                checkedIndexes={[0, 3]}
-                tasksIndexes={[0, 1, 2, 3]}
-                tasks={bugs}
-                hours={hours}
+                tasks={todayMassages}
+                onDelete={handleMassageDelete}
+                onEdit={handleMassageEdit}
               />
             </CardBody>
           </Card>
@@ -102,6 +135,7 @@ export const Dashboard = () => {
         visible={modalVisible}
         onOk={handleMassageInsert}
         onClose={() => setModalVisible(false)}
+        massageEditable={massageEditable}
       />
     </div>
   );

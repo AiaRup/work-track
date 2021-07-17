@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Footer, Sidebar, Navbar } from '../components';
 import { dashboardRoutes } from '../Router.js';
 import styles from '../assets/jss/material-dashboard-react/layouts/adminStyle.js';
-import bgImage from '../assets/img/sidebar-2.jpg';
 
 const useStyles = makeStyles(styles);
 
@@ -28,14 +27,8 @@ const switchRoutes = (
 );
 
 export const Home = ({ ...rest }) => {
-  // styles
   const classes = useStyles();
-  // ref to help us initialize PerfectScrollbar on windows devices
   const mainPanel = React.createRef();
-  // states and functions
-  const [image, setImage] = React.useState(bgImage);
-  const [color, setColor] = React.useState('blue');
-
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -59,10 +52,9 @@ export const Home = ({ ...rest }) => {
       <Sidebar
         routes={dashboardRoutes}
         logoText={'Work Tracker'}
-        image={image}
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
-        color={color}
+        color='gray'
         {...rest}
       />
       <div className={classes.mainPanel} ref={mainPanel}>

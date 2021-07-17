@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -15,6 +14,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 
 import styles from '../assets/jss/material-dashboard-react/components/modalStyle.js';
+import { CustomButton } from './Button';
 
 const useStyles = makeStyles(styles);
 
@@ -66,6 +66,7 @@ export const CustomModal = ({
               value={massageType}
               onChange={handleTypeChange}
               input={<Input />}
+              variant='outlined'
             >
               <MenuItem value={'Body'}>Body</MenuItem>
               <MenuItem value={'Foot'}>Foot</MenuItem>
@@ -79,6 +80,7 @@ export const CustomModal = ({
               value={massageMinutes}
               onChange={handleMinutesChange}
               input={<Input />}
+              variant='outlined'
             >
               <MenuItem value={30}>30</MenuItem>
               <MenuItem value={50}>50</MenuItem>
@@ -90,8 +92,9 @@ export const CustomModal = ({
         </form>
       </DialogContent>
       <DialogActions>
-        <Button
+        <CustomButton
           autoFocus
+          disabled={!massageType || !massageMinutes}
           onClick={() => {
             onOk({ massageType, massageMinutes, id: massageEditable.id });
             setMassageMinutes(null);
@@ -99,8 +102,8 @@ export const CustomModal = ({
           }}
           color='primary'
         >
-          Save changes
-        </Button>
+          Save
+        </CustomButton>
       </DialogActions>
     </Dialog>
   );

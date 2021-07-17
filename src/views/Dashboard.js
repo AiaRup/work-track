@@ -60,7 +60,8 @@ export const Dashboard = () => {
     for (const element of todayMassages) {
       total += element.massageMinutes;
     }
-    return (total / 60) * 100;
+    const displayTotal = (total / 60) * 100;
+    return displayTotal % 1 === 0 ? displayTotal : displayTotal.toFixed(2);
   };
 
   const calculateTotalMinutes = () => {
@@ -69,6 +70,11 @@ export const Dashboard = () => {
       total += element.massageMinutes;
     }
     return total;
+  };
+
+  const calculateTotalHours = () => {
+    let total = calculateTotalMinutes() / 60;
+    return total % 1 === 0 ? total : total.toFixed(2);
   };
 
   return (
@@ -105,7 +111,7 @@ export const Dashboard = () => {
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                Hours: {calculateTotalMinutes() / 60}/h
+                Hours: {calculateTotalHours()}/h
               </div>
             </CardFooter>
           </Card>

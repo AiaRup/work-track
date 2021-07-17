@@ -1,3 +1,5 @@
 import React from 'react';
 
-export const Summary = () => {};
+export const Summary = () => {
+  return <div></div>;
+};

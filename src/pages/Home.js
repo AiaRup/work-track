@@ -1,32 +1,33 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Footer, Sidebar, Navbar } from '../components';
 import { dashboardRoutes } from '../Router.js';
+
+import { Dashboard, Profile, Summary } from '../views';
 import styles from '../assets/jss/material-dashboard-react/layouts/adminStyle.js';
 
 const useStyles = makeStyles(styles);
 
 const switchRoutes = (
-  <Switch>
-    {dashboardRoutes.map((prop, key) => {
-      if (prop.layout === '/home') {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      }
-      return null;
-    })}
-    <Redirect from='/home' to='/home/dashboard' />
-  </Switch>
+  <Route
+    path='/'
+    render={({ match: { url } }) => {
+      console.log('url', url);
+      return (
+        <>
+          <Route path={`${url}`} component={Dashboard} exact />
+          <Route path={`${url}dashboard`} component={Dashboard} />
+          <Route path={`${url}profile`} component={Profile} />
+          <Route path={`${url}summary`} component={Summary} />
+        </>
+      );
+    }}
+  />
 );
 
-export const Home = ({ ...rest }) => {
+export const Home = () => {
   const classes = useStyles();
   const mainPanel = React.createRef();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -47,6 +48,7 @@ export const Home = ({ ...rest }) => {
       window.removeEventListener('resize', resizeFunction);
     };
   }, [mainPanel]);
+
   return (
     <div className={classes.wrapper}>
       <Sidebar
@@ -55,13 +57,11 @@ export const Home = ({ ...rest }) => {
         handleDrawerToggle={handleDrawerToggle}
         open={mobileOpen}
         color='gray'
-        {...rest}
       />
       <div className={classes.mainPanel} ref={mainPanel}>
         <Navbar
           routes={dashboardRoutes}
           handleDrawerToggle={handleDrawerToggle}
-          {...rest}
         />
 
         <div className={classes.content}>

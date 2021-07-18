@@ -11,36 +11,27 @@ const Login = lazy(async () => await import('./pages/Login'));
 const SignUp = lazy(async () => await import('./pages/SignUp'));
 const Home = lazy(async () => await import('./pages/Home'));
 
-export const routes = [
-  {
-    name: 'home',
-    path: '/home',
-    component: Home,
-    exact: true
-  }
-];
-
 export const dashboardRoutes = [
   {
-    path: '/dashboard',
+    path: 'dashboard',
     name: 'Dashboard',
     icon: Dashboard,
     component: DashboardPage,
-    layout: '/home'
+    layout: '/'
   },
   {
-    path: '/summary',
+    path: 'summary',
     name: 'Summary',
     icon: 'content_paste',
     component: Summary,
-    layout: '/home'
+    layout: '/'
   },
   {
-    path: '/user',
+    path: 'profile',
     name: 'Profile',
     icon: Person,
     component: Profile,
-    layout: '/home'
+    layout: '/'
   }
 ];
 
@@ -51,10 +42,7 @@ export const Router = () => {
     <Suspense fallback={<span>loading...</span>}>
       <BrowserRouter>
         {user ? (
-          <Switch>
-            <Route path='/home' component={Home} />
-            <Redirect from='/' to='/home/dashboard' />
-          </Switch>
+          <Route path='/' component={Home} />
         ) : (
           <Switch>
             <Route path='/signup' component={SignUp} />

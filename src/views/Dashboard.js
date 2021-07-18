@@ -29,20 +29,17 @@ export const Dashboard = () => {
   const [todayMassages, setTodayMassages] = useState([]);
   const [massageEditable, setMassageEditable] = useState({});
 
-  const handleMassageInsert = ({ massageType, massageMinutes, id }) => {
+  const handleMassageInsert = ({ type, minutes, id }) => {
     setModalVisible(false);
     // if massage exists, update it
     if (id) {
       const updateMassage = todayMassages.find((item) => item.id === id);
-      updateMassage.massageType = massageType;
-      updateMassage.massageMinutes = massageMinutes;
+      updateMassage.type = type;
+      updateMassage.minutes = minutes;
       setTodayMassages(todayMassages);
       setMassageEditable({});
     } else {
-      setTodayMassages([
-        ...todayMassages,
-        { massageMinutes, massageType, id: uuidv4() }
-      ]);
+      setTodayMassages([...todayMassages, { minutes, type, id: uuidv4() }]);
     }
   };
 
@@ -58,7 +55,7 @@ export const Dashboard = () => {
   const calculateTotalMoney = () => {
     let total = 0;
     for (const element of todayMassages) {
-      total += element.massageMinutes;
+      total += element.minutes;
     }
     const displayTotal = (total / 60) * 100;
     return displayTotal % 1 === 0 ? displayTotal : displayTotal.toFixed(2);
@@ -67,7 +64,7 @@ export const Dashboard = () => {
   const calculateTotalMinutes = () => {
     let total = 0;
     for (const element of todayMassages) {
-      total += element.massageMinutes;
+      total += element.minutes;
     }
     return total;
   };

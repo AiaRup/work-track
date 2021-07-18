@@ -24,11 +24,9 @@ export const Tasks = ({ tasks, rtlActive, onDelete, onEdit }) => {
       <TableBody>
         {tasks.map((task) => (
           <TableRow key={task.id} className={classes.tableRow}>
-            <TableCell className={tableCellClasses}>
-              {task.massageType}
-            </TableCell>
+            <TableCell className={tableCellClasses}>{task.type}</TableCell>
             <TableCell className={tableCellClasses + classes.bold}>
-              {task.massageMinutes}
+              {task.minutes}
             </TableCell>
             <TableCell className={classes.tableActions}>
               <Tooltip

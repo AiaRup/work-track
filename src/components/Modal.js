@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -24,17 +24,29 @@ export const CustomModal = ({
   onClose,
   massageEditable = {}
 }) => {
-  const [massageMinutes, setMassageMinutes] = useState(
-    massageEditable.massageMinutes || ''
-  );
-  const [massageType, setMassageType] = useState(massageEditable.type || '');
+  const [state, setState] = useState({
+    minutes: '',
+    type: ''
+  });
 
-  const handleTypeChange = (event) => {
-    setMassageType(event.target.value);
+  useEffect(() => {
+    if (massageEditable.type && massageEditable.minutes) {
+      setState({
+        minutes: massageEditable.minutes,
+        type: massageEditable.type
+      });
+    }
+  }, [massageEditable]);
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    setState({
+      ...state,
+      [name]: event.target.value
+    });
   };
-  const handleMinutesChange = (event) => {
-    setMassageMinutes(event.target.value);
-  };
+
+  const { minutes, type } = state;
 
   const classes = useStyles();
   return (
@@ -63,10 +75,11 @@ export const CustomModal = ({
             <Select
               labelId='demo-dialog-select-label'
               id='demo-dialog-select'
-              value={massageType}
-              onChange={handleTypeChange}
+              value={type}
+              onChange={handleChange}
               input={<Input />}
               variant='outlined'
+              name='type'
             >
               <MenuItem value={'Body'}>Body</MenuItem>
               <MenuItem value={'Foot'}>Foot</MenuItem>
@@ -77,10 +90,11 @@ export const CustomModal = ({
             <Select
               labelId='demo-dialog-select-label'
               id='demo-dialog-select'
-              value={massageMinutes}
-              onChange={handleMinutesChange}
+              value={minutes}
+              onChange={handleChange}
               input={<Input />}
               variant='outlined'
+              name='minutes'
             >
               <MenuItem value={30}>30</MenuItem>
               <MenuItem value={50}>50</MenuItem>
@@ -94,11 +108,10 @@ export const CustomModal = ({
       <DialogActions>
         <CustomButton
           autoFocus
-          disabled={!massageType || !massageMinutes}
+          disabled={!type || !minutes}
           onClick={() => {
-            onOk({ massageType, massageMinutes, id: massageEditable.id });
-            setMassageMinutes(null);
-            setMassageType(null);
+            onOk({ ...state, id: massageEditable.id });
+            setState({});
           }}
           color='primary'
         >

@@ -1,5 +1,7 @@
 import React from 'react';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DayjsUtils from '@date-io/dayjs';
 
 import { AppProvider } from './contexts';
 import { Router } from './Router';
@@ -15,9 +17,11 @@ const theme = createTheme({
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <AppProvider>
-        <Router />
-      </AppProvider>
+      <MuiPickersUtilsProvider utils={DayjsUtils}>
+        <AppProvider>
+          <Router />
+        </AppProvider>
+      </MuiPickersUtilsProvider>
     </ThemeProvider>
   );
 };

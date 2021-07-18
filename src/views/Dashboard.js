@@ -5,6 +5,7 @@ import DateRange from '@material-ui/icons/DateRange';
 import Update from '@material-ui/icons/Update';
 import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
 import { v4 as uuidv4 } from 'uuid';
+import { DatePicker } from '@material-ui/pickers';
 
 import {
   GridItem,
@@ -25,6 +26,7 @@ const useStyles = makeStyles(styles);
 
 export const Dashboard = () => {
   const classes = useStyles();
+  const [date, setDate] = useState(new Date());
   const [modalVisible, setModalVisible] = useState(false);
   const [todayMassages, setTodayMassages] = useState([]);
   const [massageEditable, setMassageEditable] = useState({});
@@ -76,6 +78,12 @@ export const Dashboard = () => {
 
   return (
     <div>
+      <DatePicker
+        variant='inline'
+        label='Today'
+        value={date}
+        onChange={setDate}
+      />
       <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
           <Card>
@@ -119,7 +127,6 @@ export const Dashboard = () => {
           <Card>
             <CardHeader color='primary'>
               <h4 className={classes.cardTitleWhite}>Massages</h4>
-              <p className={classes.cardCategoryWhite}>17/07/2021</p>
             </CardHeader>
             <CardBody>
               <Tasks

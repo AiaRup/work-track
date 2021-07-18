@@ -14,7 +14,6 @@ const switchRoutes = (
   <Route
     path='/'
     render={({ match: { url } }) => {
-      console.log('url', url);
       return (
         <>
           <Route path={`${url}`} component={Dashboard} exact />

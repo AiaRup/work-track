@@ -78,12 +78,18 @@ export const Dashboard = () => {
 
   return (
     <div>
-      <DatePicker
-        variant='inline'
-        label='Today'
-        value={date}
-        onChange={setDate}
-      />
+      <div className={classes.dateWrapper}>
+        <DatePicker
+          variant='inline'
+          label='Today'
+          value={date}
+          onChange={setDate}
+          maxDate={new Date()}
+          format='DD/MM/YYYY'
+          inputVariant='outlined'
+          autoOk={true}
+        />
+      </div>
       <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
           <Card>

@@ -76,6 +76,9 @@ const dashboardStyle = {
       fontWeight: '400',
       lineHeight: '1'
     }
+  },
+  dateWrapper: {
+    marginBottom: '15px'
   }
 };
 

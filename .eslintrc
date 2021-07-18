@@ -16,6 +16,12 @@
         "args": "after-used",
         "ignoreRestSiblings": true
       }
+    ],
+    "import/no-anonymous-default-export": [
+      "error",
+      {
+        "allowObject": true
+      }
     ]
   },
   "env": {

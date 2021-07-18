@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  InputLabel,
+  Input,
+  MenuItem,
+  FormControl,
+  Select,
+  IconButton,
+  Typography
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
 
 import styles from '../assets/jss/material-dashboard-react/components/modalStyle.js';
 import { CustomButton } from './Button';
@@ -71,10 +73,10 @@ export const CustomModal = ({
       <DialogContent dividers>
         <form>
           <FormControl className={classes.formControl} required>
-            <InputLabel htmlFor='demo-dialog-native'>Type</InputLabel>
+            <InputLabel htmlFor='type-select-label'>Type</InputLabel>
             <Select
-              labelId='demo-dialog-select-label'
-              id='demo-dialog-select'
+              labelId='type-label-id'
+              id='type-label'
               value={type}
               onChange={handleChange}
               input={<Input />}
@@ -86,10 +88,10 @@ export const CustomModal = ({
             </Select>
           </FormControl>
           <FormControl className={classes.formControl} required>
-            <InputLabel id='demo-dialog-select-label'>Minutes</InputLabel>
+            <InputLabel id='minutes-select-label'>Minutes</InputLabel>
             <Select
-              labelId='demo-dialog-select-label'
-              id='demo-dialog-select'
+              labelId='minutes-label-id'
+              id='minutes-label'
               value={minutes}
               onChange={handleChange}
               input={<Input />}

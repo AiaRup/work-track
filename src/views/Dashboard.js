@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Money from '@material-ui/icons/Money';
+import Money from '@material-ui/icons/AttachMoneyOutlined';
 import DateRange from '@material-ui/icons/DateRange';
 import Update from '@material-ui/icons/Update';
-import AccessibilityNewIcon from '@material-ui/icons/AccessibilityNew';
+import Alarm from '@material-ui/icons/AlarmOutlined';
 import { v4 as uuidv4 } from 'uuid';
 import { DatePicker } from '@material-ui/pickers';
 
@@ -114,7 +114,7 @@ export const Dashboard = () => {
           <Card>
             <CardHeader color='info' stats icon>
               <CardIcon color='info'>
-                <AccessibilityNewIcon />
+                <Alarm />
               </CardIcon>
               <p className={classes.cardCategory}>Minutes</p>
               <h3 className={classes.cardTitle}>{calculateTotalMinutes()}</h3>

@@ -7,7 +7,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Menu from '@material-ui/icons/Menu';
 
-import { CustomButton as Button } from './Button';
 import { useRouteName } from '../hooks';
 import styles from '../assets/jss/material-dashboard-react/components/headerStyle';
 
@@ -23,9 +22,7 @@ export const Navbar = ({ color, handleDrawerToggle }) => {
     <AppBar className={classes.appBar + appBarClasses}>
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
-          <Button color='transparent' href='#' className={classes.title}>
-            {routeName}
-          </Button>
+          <span className={classes.title}>{routeName}</span>
         </div>
         <Hidden mdUp implementation='css'>
           <IconButton

@@ -7,5 +7,5 @@ export const useRouteName = () => {
       name = route.name;
     }
   });
-  return name;
+  return name || 'Dashboard';
 };

@@ -25,6 +25,9 @@ export const Sidebar = ({
   const classes = useStyles();
   let location = useLocation();
   function activeRoute(routeName) {
+    if (routeName === '/dashboard') {
+      return location.pathname === routeName || location.pathname === '/';
+    }
     return location.pathname === routeName;
   }
 

@@ -8,6 +8,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Icon from '@material-ui/core/Icon';
+import Close from '@material-ui/icons/CloseRounded';
 
 import styles from '../assets/jss/material-dashboard-react/components/sidebarStyle.js';
 
@@ -84,6 +85,9 @@ export const Sidebar = ({
         })}
       >
         {logoText}
+        <Hidden mdUp implementation='css'>
+          <Close onClick={handleDrawerToggle} className={classes.closeIcon} />
+        </Hidden>
       </span>
     </div>
   );

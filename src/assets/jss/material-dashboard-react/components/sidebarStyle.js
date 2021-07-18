@@ -71,16 +71,23 @@ const sidebarStyle = (theme) => ({
       backgroundColor: 'rgba(' + hexToRgb(grayColor[6]) + ', 0.3)'
     }
   },
+  closeIcon: {
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  },
   logoLink: {
     ...defaultFont,
     textTransform: 'uppercase',
     padding: '5px 0',
-    display: 'block',
     fontSize: '18px',
     textAlign: 'left',
     fontWeight: '400',
     lineHeight: '30px',
     textDecoration: 'none',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     backgroundColor: 'transparent',
     '&,&:hover': {
       color: whiteColor

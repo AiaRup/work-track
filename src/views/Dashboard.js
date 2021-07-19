@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Money from '@material-ui/icons/AttachMoneyOutlined';
 import DateRange from '@material-ui/icons/DateRange';
@@ -6,6 +6,7 @@ import Update from '@material-ui/icons/Update';
 import Alarm from '@material-ui/icons/AlarmOutlined';
 import { v4 as uuidv4 } from 'uuid';
 import { DatePicker } from '@material-ui/pickers';
+import * as dayjs from 'dayjs';
 
 import {
   GridItem,
@@ -19,7 +20,8 @@ import {
   Modal,
   CardBody
 } from '../components';
-
+import { AppContext } from '../contexts';
+import * as FirestoreService from '../services/firebase';
 import styles from '../assets/jss/material-dashboard-react/views/dashboardStyle.js';
 
 const useStyles = makeStyles(styles);
@@ -30,23 +32,46 @@ export const Dashboard = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [todayMassages, setTodayMassages] = useState([]);
   const [massageEditable, setMassageEditable] = useState({});
+  const { user } = useContext(AppContext);
+
+  useEffect(() => {
+    const formattedDate = dayjs(date).format('DD/MM/YYYY');
+    const unsubscribe = FirestoreService.streamMassages(
+      user.id,
+      formattedDate,
+      {
+        next: (querySnapshot) => {
+          const updatedMassages = querySnapshot.docs.map((docSnapshot) =>
+            docSnapshot.data()
+          );
+          setTodayMassages(updatedMassages);
+        },
+        error: () => console.log('error streaming')
+      }
+    );
+    return unsubscribe;
+  }, [date, user.id]);
 
   const handleMassageInsert = ({ type, minutes, id }) => {
     setModalVisible(false);
+    const formattedDate = dayjs(date).format('DD/MM/YYYY');
     // if massage exists, update it
     if (id) {
-      const updateMassage = todayMassages.find((item) => item.id === id);
-      updateMassage.type = type;
-      updateMassage.minutes = minutes;
-      setTodayMassages(todayMassages);
+      FirestoreService.updateMassage(id, { type, minutes });
       setMassageEditable({});
     } else {
-      setTodayMassages([...todayMassages, { minutes, type, id: uuidv4() }]);
+      FirestoreService.addMassage({
+        minutes,
+        type,
+        id: uuidv4(),
+        user: user.id,
+        date: formattedDate
+      });
     }
   };
 
   const handleMassageDelete = (id) => {
-    setTodayMassages(todayMassages.filter((item) => item.id !== id));
+    FirestoreService.deleteMassage(id);
   };
 
   const handleMassageEdit = (item) => {

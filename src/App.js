@@ -5,9 +5,6 @@ import DayjsUtils from '@date-io/dayjs';
 
 import { AppProvider } from './contexts';
 import { Router } from './Router';
-import { FirebaseProvider } from './services/firebase';
-
-require('dotenv').config();
 
 const theme = createTheme({
   palette: {
@@ -17,15 +14,13 @@ const theme = createTheme({
 
 const App = () => {
   return (
-    <FirebaseProvider>
-      <ThemeProvider theme={theme}>
-        <MuiPickersUtilsProvider utils={DayjsUtils}>
-          <AppProvider>
-            <Router />
-          </AppProvider>
-        </MuiPickersUtilsProvider>
-      </ThemeProvider>
-    </FirebaseProvider>
+    <ThemeProvider theme={theme}>
+      <MuiPickersUtilsProvider utils={DayjsUtils}>
+        <AppProvider>
+          <Router />
+        </AppProvider>
+      </MuiPickersUtilsProvider>
+    </ThemeProvider>
   );
 };
 

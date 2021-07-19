@@ -6,6 +6,7 @@ export { Navbar } from './Navbar';
 export { CustomButton } from './Button';
 export { CustomTabs } from './CustomTabs';
 export { Tasks } from './Tasks';
+export { CustomTable as Table } from './Table';
 export {
   Card,
   CardAvatar,

@@ -42,12 +42,23 @@ export const getMassagesByDateRange = async (user, date, type = 'date') => {
     .where('date', '>=', createTimpstamp(startDate))
     .where('date', '<=', createTimpstamp(endDate))
     .get();
-  return snapshot.docs.map((doc) => {
+  const arrayWithDates = snapshot.docs.map((doc) => {
     const data = doc.data();
     data.date = dayjs(data.date.toDate()).format('DD/MM');
 
     return data;
   });
+
+  let map = arrayWithDates.reduce((prev, next) => {
+    if (next.date in prev) {
+      prev[next.date].minutes += next.minutes;
+    } else {
+      prev[next.date] = next;
+    }
+    return prev;
+  }, {});
+
+  return Object.keys(map).map((date) => map[date]);
 };
 
 export const updateMassage = (id, massage) => {

@@ -51,6 +51,10 @@ export const Summary = () => {
     }
     return total;
   };
+
+  const roundNumber = (total) => {
+    return total % 1 === 0 ? total : total.toFixed(2);
+  };
   return (
     <div>
       <div className={classes.dateWrapper}>
@@ -119,8 +123,8 @@ export const Summary = () => {
                 tableData={monthMassages.map((m) => [
                   m.date,
                   m.minutes,
-                  `${m.minutes / 60}/h`,
-                  `${(m.minutes / 60) * 100}₪`
+                  `${roundNumber(m.minutes / 60)} /h`,
+                  `${roundNumber((m.minutes / 60) * 100)} ₪`
                 ])}
               />
             </CardBody>

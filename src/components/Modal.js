@@ -4,13 +4,11 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  InputLabel,
-  Input,
   MenuItem,
   FormControl,
-  Select,
   IconButton,
-  Typography
+  Typography,
+  TextField
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
@@ -72,29 +70,31 @@ export const CustomModal = ({
       </DialogTitle>
       <DialogContent dividers>
         <form>
-          <FormControl className={classes.formControl} required>
-            <InputLabel htmlFor='type-select-label'>Type</InputLabel>
-            <Select
-              labelId='type-label-id'
+          <FormControl className={classes.formControl}>
+            <TextField
+              required
+              fullWidth
               id='type-label'
+              select
+              label='Type'
               value={type}
               onChange={handleChange}
-              input={<Input />}
               variant='outlined'
               name='type'
             >
               <MenuItem value={'Body'}>Body</MenuItem>
               <MenuItem value={'Foot'}>Foot</MenuItem>
-            </Select>
+            </TextField>
           </FormControl>
-          <FormControl className={classes.formControl} required>
-            <InputLabel id='minutes-select-label'>Minutes</InputLabel>
-            <Select
-              labelId='minutes-label-id'
+          <FormControl className={classes.formControl}>
+            <TextField
+              required
+              fullWidth
               id='minutes-label'
+              select
+              label='Minutes'
               value={minutes}
               onChange={handleChange}
-              input={<Input />}
               variant='outlined'
               name='minutes'
             >
@@ -104,7 +104,7 @@ export const CustomModal = ({
               <MenuItem value={75}>75</MenuItem>
               <MenuItem value={90}>90</MenuItem>
               <MenuItem value={120}>120</MenuItem>
-            </Select>
+            </TextField>
           </FormControl>
         </form>
       </DialogContent>

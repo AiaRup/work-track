@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import signupStyle from '../assets/jss/material-dashboard-react/layouts/signupStyle';
 
@@ -74,6 +75,22 @@ export default function SignUp() {
                 id='password'
                 autoComplete='current-password'
               />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                id='salary-hour'
+                select
+                label='Paid by hour'
+                value={100}
+                onChange={() => true}
+                variant='outlined'
+              >
+                <MenuItem value={60}>60</MenuItem>
+                <MenuItem value={75}>75</MenuItem>
+                <MenuItem value={80}>80</MenuItem>
+                <MenuItem value={100}>100</MenuItem>
+              </TextField>
             </Grid>
           </Grid>
           <Button

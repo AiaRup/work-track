@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import * as dayjs from 'dayjs';
 
 import { config } from '../config';
 
@@ -11,12 +12,17 @@ export const authenticateAnonymously = () => {
   return firebase.auth().signInAnonymously();
 };
 
+const createTimpstamp = (date) => {
+  return firebase.firestore.Timestamp.fromDate(date);
+};
+
 const COLLECTION = 'massages';
 
 export const addMassage = (massage) => {
   return db.collection(COLLECTION).add({
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    ...massage
+    ...massage,
+    date: createTimpstamp(massage.date.toDate()),
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
   });
 };
 
@@ -24,11 +30,14 @@ export const getMassageById = (id) => {
   return db.collection(COLLECTION).doc(id).get();
 };
 
-export const getMassagesByDate = async (user, date) => {
+export const getMassagesByDateRange = async (user, date) => {
+  const startDate = dayjs(date).startOf('date').toDate();
+  const endDate = dayjs(date).endOf('date').toDate();
   const snapshot = await db
     .collection(COLLECTION)
-    .where('user', '==', user)
-    .where('date', '==', date)
+    // .where('user', '==', user)
+    .where('date', '>=', createTimpstamp(startDate))
+    .where('date', '<=', createTimpstamp(endDate))
     .get();
   return snapshot.docs.map((doc) => doc.data());
 };
@@ -58,9 +67,15 @@ export const deleteMassage = (id) => {
 };
 
 export const streamMassages = (user, date, observer) => {
-  return db
-    .collection(COLLECTION)
-    .where('user', '==', user)
-    .where('date', '==', date)
-    .onSnapshot(observer);
+  const startDate = dayjs(date).startOf('date').toDate();
+  const endDate = dayjs(date).endOf('date').toDate();
+
+  return (
+    db
+      .collection(COLLECTION)
+      // .where('user', '==', user)
+      .where('date', '>=', createTimpstamp(startDate))
+      .where('date', '<=', createTimpstamp(endDate))
+      .onSnapshot(observer)
+  );
 };

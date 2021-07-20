@@ -28,34 +28,27 @@ const useStyles = makeStyles(styles);
 
 export const Dashboard = () => {
   const classes = useStyles();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(dayjs());
   const [modalVisible, setModalVisible] = useState(false);
   const [todayMassages, setTodayMassages] = useState([]);
   const [massageEditable, setMassageEditable] = useState({});
   const { user } = useContext(AppContext);
 
   useEffect(() => {
-    const formattedDate = dayjs(date).format('DD/MM/YYYY');
-    const unsubscribe = FirestoreService.streamMassages(
-      user.id,
-      formattedDate,
-      {
-        next: (querySnapshot) => {
-          const updatedMassages = querySnapshot.docs.map((docSnapshot) =>
-            docSnapshot.data()
-          );
-          setTodayMassages(updatedMassages);
-        },
-        error: () => console.log('error streaming')
-      }
-    );
+    const unsubscribe = FirestoreService.streamMassages(user.id, date, {
+      next: (querySnapshot) => {
+        const updatedMassages = querySnapshot.docs.map((docSnapshot) =>
+          docSnapshot.data()
+        );
+        setTodayMassages(updatedMassages);
+      },
+      error: () => console.log('error streaming')
+    });
     return unsubscribe;
   }, [date, user.id]);
 
   const handleMassageInsert = ({ type, minutes, id }) => {
     setModalVisible(false);
-    const formattedDate = dayjs(date).format('DD/MM/YYYY');
-    // if massage exists, update it
     if (id) {
       FirestoreService.updateMassage(id, { type, minutes });
       setMassageEditable({});
@@ -65,7 +58,7 @@ export const Dashboard = () => {
         type,
         id: uuidv4(),
         user: user.id,
-        date: formattedDate
+        date
       });
     }
   };

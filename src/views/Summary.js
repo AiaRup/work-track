@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Money from '@material-ui/icons/AttachMoneyOutlined';
 import DateRange from '@material-ui/icons/DateRange';
 import Update from '@material-ui/icons/Update';
 import Alarm from '@material-ui/icons/AlarmOutlined';
 import { DatePicker } from '@material-ui/pickers';
+import * as dayjs from 'dayjs';
 
 import {
   GridItem,
@@ -16,7 +17,8 @@ import {
   Table,
   CardBody
 } from '../components';
-
+import * as FirestoreService from '../services/firebase';
+import { AppContext } from '../contexts';
 import styles from '../assets/jss/material-dashboard-react/views/dashboardStyle.js';
 
 const useStyles = makeStyles(styles);
@@ -24,6 +26,31 @@ const useStyles = makeStyles(styles);
 export const Summary = () => {
   const classes = useStyles();
   const [month, setMonth] = useState(new Date());
+  const [monthMassages, setMonthMassages] = useState([]);
+  const { user } = useContext(AppContext);
+
+  useEffect(() => {
+    FirestoreService.getMassagesByDateRange(user.id, month, 'month')
+      .then((data) => setMonthMassages(data))
+      .catch((e) => console.log('error getting month massages', e));
+  }, [month, user.id]);
+
+  const calculateTotalMoney = () => {
+    let total = 0;
+    for (const element of monthMassages) {
+      total += element.minutes;
+    }
+    const displayTotal = (total / 60) * 100;
+    return displayTotal % 1 === 0 ? displayTotal : displayTotal.toFixed(2);
+  };
+
+  const calculateTotalMinutes = () => {
+    let total = 0;
+    for (const element of monthMassages) {
+      total += element.minutes;
+    }
+    return total;
+  };
   return (
     <div>
       <div className={classes.dateWrapper}>
@@ -32,12 +59,11 @@ export const Summary = () => {
           label='Month'
           value={month}
           onChange={setMonth}
-          minDate={new Date('2021-06-01')}
-          maxDate={new Date()}
-          // maxDate={new Date()}
+          minDate={dayjs('2021-06-01')}
+          maxDate={dayjs()}
           inputVariant='outlined'
           autoOk={true}
-          views={['month', 'year']}
+          views={['year', 'month']}
           format='MMMM YYYY'
         />
       </div>
@@ -49,7 +75,9 @@ export const Summary = () => {
                 <Money />
               </CardIcon>
               <p className={classes.cardCategory}>Money</p>
-              <h3 className={classes.cardTitle}>{'1000'}&#8362;</h3>
+              <h3 className={classes.cardTitle}>
+                {calculateTotalMoney()}&#8362;
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -66,12 +94,12 @@ export const Summary = () => {
                 <Alarm />
               </CardIcon>
               <p className={classes.cardCategory}>Minutes</p>
-              <h3 className={classes.cardTitle}>{8000}</h3>
+              <h3 className={classes.cardTitle}>{calculateTotalMinutes()}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                Hours: {120}/h
+                Hours: {calculateTotalMinutes() / 60}/h
               </div>
             </CardFooter>
           </Card>
@@ -88,12 +116,12 @@ export const Summary = () => {
               <Table
                 tableHeaderColor='warning'
                 tableHead={['Date', 'Minutes', 'Hours', 'Salary']}
-                tableData={[
-                  ['01/07/2021', '150', '4.5', '350'],
-                  ['02/07/2021', '300', '5', '400'],
-                  ['03/07/2021', '420', '6.45', '600'],
-                  ['04/07/2021', '300', '5.5', '520']
-                ]}
+                tableData={monthMassages.map((m) => [
+                  m.date,
+                  m.minutes,
+                  `${m.minutes / 60}/h`,
+                  `${(m.minutes / 60) * 100}₪`
+                ])}
               />
             </CardBody>
           </Card>

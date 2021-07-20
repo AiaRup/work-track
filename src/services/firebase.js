@@ -5,7 +5,10 @@ import * as dayjs from 'dayjs';
 
 import { config } from '../config';
 
-firebase.initializeApp(config.firebase);
+!firebase?.apps?.length
+  ? firebase.initializeApp(config.firebase)
+  : firebase.app();
+
 const db = firebase.firestore();
 
 export const authenticateAnonymously = () => {
@@ -30,16 +33,21 @@ export const getMassageById = (id) => {
   return db.collection(COLLECTION).doc(id).get();
 };
 
-export const getMassagesByDateRange = async (user, date) => {
-  const startDate = dayjs(date).startOf('date').toDate();
-  const endDate = dayjs(date).endOf('date').toDate();
+export const getMassagesByDateRange = async (user, date, type = 'date') => {
+  const startDate = dayjs(date).startOf(type).toDate();
+  const endDate = dayjs(date).endOf(type).toDate();
   const snapshot = await db
     .collection(COLLECTION)
     // .where('user', '==', user)
     .where('date', '>=', createTimpstamp(startDate))
     .where('date', '<=', createTimpstamp(endDate))
     .get();
-  return snapshot.docs.map((doc) => doc.data());
+  return snapshot.docs.map((doc) => {
+    const data = doc.data();
+    data.date = dayjs(data.date.toDate()).format('DD/MM');
+
+    return data;
+  });
 };
 
 export const updateMassage = (id, massage) => {

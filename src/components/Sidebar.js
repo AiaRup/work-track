@@ -50,6 +50,7 @@ export const Sidebar = ({
             className={activePro + classes.item}
             activeClassName='active'
             key={key}
+            onClick={open ? () => handleDrawerToggle() : null}
           >
             <ListItem button className={classes.itemLink + listItemClasses}>
               {typeof prop.icon === 'string' ? (

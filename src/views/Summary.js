@@ -82,7 +82,7 @@ export const Summary = () => {
             <CardFooter stats>
               <div className={classes.stats}>
                 <DateRange />
-                Month
+                Working days this month: {monthMassages.length}
               </div>
             </CardFooter>
           </Card>
@@ -99,7 +99,7 @@ export const Summary = () => {
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                Hours: {calculateTotalMinutes() / 60}/h
+                Hours: {(calculateTotalMinutes() / 60).toFixed(2)}/h
               </div>
             </CardFooter>
           </Card>

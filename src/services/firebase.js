@@ -84,6 +84,7 @@ export const streamMassages = (user, date, observer) => {
       // .where('user', '==', user)
       .where('date', '>=', createTimpstamp(startDate))
       .where('date', '<=', createTimpstamp(endDate))
+      .orderBy('date')
       .onSnapshot(observer)
   );
 };

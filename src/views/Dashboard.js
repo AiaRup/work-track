@@ -49,7 +49,11 @@ export const Dashboard = () => {
         const updatedMassages = querySnapshot.docs.map((docSnapshot) =>
           docSnapshot.data()
         );
-        setTodayMassages(updatedMassages);
+        setTodayMassages(
+          updatedMassages?.sort(
+            (a, b) => a.createdAt.toDate() - b.createdAt.toDate()
+          )
+        );
       },
       error: () => console.log('error streaming')
     });

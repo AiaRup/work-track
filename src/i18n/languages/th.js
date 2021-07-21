@@ -13,17 +13,22 @@ const translations = {
   // login form
   password: 'รหัสผ่าน',
   username: 'ชื่อผู้ใช้',
-  forgotPassword: 'ลืมรหัสผ่าน',
-  rememberMe: 'จดจำฉัน',
-  registerNow: 'สมัครตอนนี้',
+  forgot_password: 'ลืมรหัสผ่าน',
+  remember_me: 'จดจำฉัน',
+  register_now: 'สมัครตอนนี้',
   logout: 'ออกจากระบบ',
   login: 'เข้าสู่ระบบ',
 
   // register form
   email: 'อีเมล',
-  confirmPassword: 'ยืนยันรหัสผ่าน',
+  confirm_password: 'ยืนยันรหัสผ่าน',
   register: 'การลงทะเบียน',
-  alreadyRegistered: 'ลงทะเบียนเรียบร้อยแล้ว?',
+  already_registered: 'ลงทะเบียนเรียบร้อยแล้ว?',
+  first_name: 'ชื่อแรก',
+  last_name: 'นามสกุล',
+  wage_for_hour: 'ค่าจ้างหนึ่งชั่วโมง',
+  save_changes: 'บันทึกการเปลี่ยนแปลง',
+  save_new_password: 'บันทึกรหัสผ่านใหม่',
 
   // menu
   dashboard: 'รายงานประจำวัน',
@@ -54,7 +59,11 @@ const translations = {
   type: 'ชนิด',
   body: 'นวดตัว',
   foot: 'นวดฝ่าเท้า',
-  save: 'บันทึกการนวดใหม่'
+  save: 'บันทึกการนวดใหม่',
+
+  // profile
+  settings: 'การตั้งค่าผู้ใช้',
+  change_password: 'เปลี่ยนรหัสผ่าน'
 };
 
 export default translations;

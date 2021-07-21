@@ -13,17 +13,22 @@ const translations = {
   // login form
   password: 'Password',
   username: 'Username',
-  forgotPassword: 'Forgot password',
-  rememberMe: 'Remember me',
-  registerNow: 'Register now',
+  forgot_password: 'Forgot password',
+  remember_me: 'Remember me',
+  register_now: 'Register now',
   logout: 'Log Out',
   login: 'Log in',
 
   // register form
-  email: 'Email',
-  confirmPassword: 'Confirm Password',
+  email: 'Email Address',
+  confirm_password: 'Confirm Password',
   register: 'Register',
-  alreadyRegistered: 'Already Registered?',
+  already_registered: 'Already Registered?',
+  first_name: 'First Name',
+  last_name: 'Last Name',
+  wage_for_hour: 'Wage for one hour',
+  save_changes: 'Save changes',
+  save_new_password: 'Save new password',
 
   // menu
   dashboard: 'Dashboard',
@@ -54,7 +59,11 @@ const translations = {
   type: 'Type',
   body: 'Body',
   foot: 'Foot',
-  save: 'Save'
+  save: 'Save',
+
+  // profile
+  settings: 'Settings',
+  change_password: 'Change password'
 };
 
 export default translations;

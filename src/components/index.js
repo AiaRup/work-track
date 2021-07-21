@@ -7,6 +7,8 @@ export { CustomButton } from './Button';
 export { CustomTabs } from './CustomTabs';
 export { Tasks } from './Tasks';
 export { CustomTable as Table } from './Table';
+export { ProfileSettings } from './ProfileSettings';
+export { ChangePassword } from './ChangePassword';
 export {
   Card,
   CardAvatar,

@@ -26,8 +26,8 @@ const translations = {
   alreadyRegistered: 'ลงทะเบียนเรียบร้อยแล้ว?',
 
   // menu
-  dashboard: 'แผงควบคุม',
-  summary: 'รายงานสรุป',
+  dashboard: 'รายงานประจำวัน',
+  summary: 'รายงานเดือนและปี',
   profile: 'ข้อมูลส่วนตัว',
 
   // dashboard

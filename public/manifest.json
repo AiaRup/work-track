@@ -3,9 +3,9 @@
   "name": "Work Tracker PWA",
   "icons": [
     {
-      "src": "/images/logo.png",
+      "src": "/images/favicon.png",
       "type": "image/png",
-      "sizes": "1024x1024"
+      "sizes": "512x512"
     }
   ],
   "start_url": ".",

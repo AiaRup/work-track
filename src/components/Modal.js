@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
+import { FormattedMessage } from 'react-intl';
 
 import styles from '../assets/jss/material-dashboard-react/components/modalStyle.js';
 import { CustomButton } from './Button';
@@ -57,7 +58,9 @@ export const CustomModal = ({
       className={classes.modal}
     >
       <DialogTitle disableTypography className={classes.title}>
-        <Typography variant='h6'>New Massage</Typography>
+        <Typography variant='h6'>
+          <FormattedMessage id='new_massage' />
+        </Typography>
         {onClose ? (
           <IconButton
             aria-label='close'
@@ -76,14 +79,18 @@ export const CustomModal = ({
               fullWidth
               id='type-label'
               select
-              label='Type'
+              label={<FormattedMessage id='type' />}
               value={type}
               onChange={handleChange}
               variant='outlined'
               name='type'
             >
-              <MenuItem value={'Body'}>Body</MenuItem>
-              <MenuItem value={'Foot'}>Foot</MenuItem>
+              <MenuItem value={'Body'}>
+                <FormattedMessage id='body' />
+              </MenuItem>
+              <MenuItem value={'Foot'}>
+                <FormattedMessage id='foot' />
+              </MenuItem>
             </TextField>
           </FormControl>
           <FormControl className={classes.formControl}>
@@ -92,7 +99,7 @@ export const CustomModal = ({
               fullWidth
               id='minutes-label'
               select
-              label='Minutes'
+              label={<FormattedMessage id='minutes' />}
               value={minutes}
               onChange={handleChange}
               variant='outlined'
@@ -118,7 +125,7 @@ export const CustomModal = ({
           }}
           color='primary'
         >
-          Save
+          <FormattedMessage id='save' />
         </CustomButton>
       </DialogActions>
     </Dialog>

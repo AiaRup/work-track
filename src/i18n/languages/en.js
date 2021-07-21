@@ -23,7 +23,38 @@ const translations = {
   email: 'Email',
   confirmPassword: 'Confirm Password',
   register: 'Register',
-  alreadyRegistered: 'Already Registered?'
+  alreadyRegistered: 'Already Registered?',
+
+  // menu
+  dashboard: 'Dashboard',
+  summary: 'Summary',
+  profile: 'Profile',
+
+  //dashboard
+  today: 'Today',
+  money: 'Money',
+  minutes: 'Minutes',
+  hours: 'Hours',
+  massages: 'Massages',
+
+  // tasks
+  no_massages_yet: 'There is no massages yet',
+  remove: 'Remove',
+  edit: 'Edit',
+
+  // summary
+  month: 'Month',
+  working_days: 'Working days this month',
+  overview_by_date: 'Overview by date',
+  date: 'Date',
+  salary: 'Salary',
+
+  // modal
+  new_massage: 'New massage',
+  type: 'Type',
+  body: 'Body',
+  foot: 'Foot',
+  save: 'Save'
 };
 
 export default translations;

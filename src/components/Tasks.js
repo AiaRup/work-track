@@ -9,6 +9,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import Edit from '@material-ui/icons/EditOutlined';
 import Delete from '@material-ui/icons/DeleteForeverOutlined';
+import { FormattedMessage } from 'react-intl';
 
 import styles from '../assets/jss/material-dashboard-react/components/tasksStyle.js';
 
@@ -24,14 +25,16 @@ export const Tasks = ({ tasks, rtlActive, onDelete, onEdit }) => {
       <TableBody>
         {tasks.map((task) => (
           <TableRow key={task.id} className={classes.tableRow}>
-            <TableCell className={tableCellClasses}>{task.type}</TableCell>
+            <TableCell className={tableCellClasses}>
+              <FormattedMessage id={task.type?.toLowerCase()} />
+            </TableCell>
             <TableCell className={tableCellClasses + classes.bold}>
               {task.minutes}
             </TableCell>
             <TableCell className={classes.tableActions}>
               <Tooltip
                 id='tooltip-top'
-                title='Edit'
+                title={<FormattedMessage id='edit' />}
                 placement='top'
                 classes={{ tooltip: classes.tooltip }}
               >
@@ -49,7 +52,7 @@ export const Tasks = ({ tasks, rtlActive, onDelete, onEdit }) => {
               </Tooltip>
               <Tooltip
                 id='tooltip-top-start'
-                title='Remove'
+                title={<FormattedMessage id='remove' />}
                 placement='top'
                 classes={{ tooltip: classes.tooltip }}
               >
@@ -70,7 +73,9 @@ export const Tasks = ({ tasks, rtlActive, onDelete, onEdit }) => {
         ))}
         {!tasks.length && (
           <TableRow className={classes.tableRow}>
-            <TableCell className={tableCellClasses}>List is empty</TableCell>
+            <TableCell className={tableCellClasses}>
+              <FormattedMessage id='no_massages_yet' />
+            </TableCell>
           </TableRow>
         )}
       </TableBody>

@@ -5,8 +5,12 @@ import DateRange from '@material-ui/icons/DateRange';
 import Update from '@material-ui/icons/Update';
 import Alarm from '@material-ui/icons/AlarmOutlined';
 import { v4 as uuidv4 } from 'uuid';
-import { DatePicker } from '@material-ui/pickers';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import * as dayjs from 'dayjs';
+import DateFnsUtils from '@date-io/date-fns';
+import { FormattedMessage } from 'react-intl';
+import enLocale from 'date-fns/locale/en-US';
+import thLocale from 'date-fns/locale/th';
 
 import {
   GridItem,
@@ -26,13 +30,18 @@ import styles from '../assets/jss/material-dashboard-react/views/dashboardStyle.
 
 const useStyles = makeStyles(styles);
 
+const localeMap = {
+  en: enLocale,
+  th: thLocale
+};
+
 export const Dashboard = () => {
   const classes = useStyles();
   const [date, setDate] = useState(dayjs());
   const [modalVisible, setModalVisible] = useState(false);
   const [todayMassages, setTodayMassages] = useState([]);
   const [massageEditable, setMassageEditable] = useState({});
-  const { user } = useContext(AppContext);
+  const { user, language } = useContext(AppContext);
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamMassages(user.id, date, {
@@ -97,16 +106,21 @@ export const Dashboard = () => {
   return (
     <div>
       <div className={classes.dateWrapper}>
-        <DatePicker
-          variant='inline'
-          label='Today'
-          value={date}
-          onChange={setDate}
-          maxDate={new Date()}
-          format='DD/MM/YYYY'
-          inputVariant='outlined'
-          autoOk={true}
-        />
+        <MuiPickersUtilsProvider
+          utils={DateFnsUtils}
+          locale={localeMap[language]}
+        >
+          <DatePicker
+            variant='inline'
+            label={<FormattedMessage id='today' />}
+            value={date}
+            onChange={setDate}
+            maxDate={new Date()}
+            format='dd/MM/yyyy'
+            inputVariant='outlined'
+            autoOk={true}
+          />
+        </MuiPickersUtilsProvider>
       </div>
       <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
@@ -115,7 +129,9 @@ export const Dashboard = () => {
               <CardIcon color='success'>
                 <Money />
               </CardIcon>
-              <p className={classes.cardCategory}>Money</p>
+              <p className={classes.cardCategory}>
+                <FormattedMessage id='money' />
+              </p>
               <h3 className={classes.cardTitle}>
                 {calculateTotalMoney()}&#8362;
               </h3>
@@ -123,7 +139,7 @@ export const Dashboard = () => {
             <CardFooter stats>
               <div className={classes.stats}>
                 <DateRange />
-                Today
+                <FormattedMessage id='today' />
               </div>
             </CardFooter>
           </Card>
@@ -134,13 +150,16 @@ export const Dashboard = () => {
               <CardIcon color='info'>
                 <Alarm />
               </CardIcon>
-              <p className={classes.cardCategory}>Minutes</p>
+              <p className={classes.cardCategory}>
+                <FormattedMessage id='minutes' />
+              </p>
               <h3 className={classes.cardTitle}>{calculateTotalMinutes()}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                Hours: {calculateTotalHours()}/h
+                <FormattedMessage id='hours' />: <b>{calculateTotalHours()}</b>{' '}
+                /h
               </div>
             </CardFooter>
           </Card>
@@ -150,7 +169,9 @@ export const Dashboard = () => {
         <GridItem xs={12} sm={12} md={6}>
           <Card>
             <CardHeader color='primary'>
-              <h4 className={classes.cardTitleWhite}>Massages</h4>
+              <h4 className={classes.cardTitleWhite}>
+                <FormattedMessage id='massages' />
+              </h4>
             </CardHeader>
             <CardBody>
               <Tasks

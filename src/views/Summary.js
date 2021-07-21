@@ -4,8 +4,12 @@ import Money from '@material-ui/icons/AttachMoneyOutlined';
 import DateRange from '@material-ui/icons/DateRange';
 import Update from '@material-ui/icons/Update';
 import Alarm from '@material-ui/icons/AlarmOutlined';
-import { DatePicker } from '@material-ui/pickers';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import * as dayjs from 'dayjs';
+import DateFnsUtils from '@date-io/date-fns';
+import { FormattedMessage } from 'react-intl';
+import enLocale from 'date-fns/locale/en-US';
+import thLocale from 'date-fns/locale/th';
 
 import {
   GridItem,
@@ -23,11 +27,16 @@ import styles from '../assets/jss/material-dashboard-react/views/dashboardStyle.
 
 const useStyles = makeStyles(styles);
 
+const localeMap = {
+  en: enLocale,
+  th: thLocale
+};
+
 export const Summary = () => {
   const classes = useStyles();
   const [month, setMonth] = useState(new Date());
   const [monthMassages, setMonthMassages] = useState([]);
-  const { user } = useContext(AppContext);
+  const { user, language } = useContext(AppContext);
 
   useEffect(() => {
     FirestoreService.getMassagesByDateRange(user.id, month, 'month')
@@ -58,18 +67,23 @@ export const Summary = () => {
   return (
     <div>
       <div className={classes.dateWrapper}>
-        <DatePicker
-          variant='inline'
-          label='Month'
-          value={month}
-          onChange={setMonth}
-          minDate={dayjs('2021-06-01')}
-          maxDate={dayjs()}
-          inputVariant='outlined'
-          autoOk={true}
-          views={['year', 'month']}
-          format='MMMM YYYY'
-        />
+        <MuiPickersUtilsProvider
+          utils={DateFnsUtils}
+          locale={localeMap[language]}
+        >
+          <DatePicker
+            variant='inline'
+            label={<FormattedMessage id='month' />}
+            value={month}
+            onChange={setMonth}
+            minDate={dayjs('2021-06-01')}
+            maxDate={dayjs()}
+            inputVariant='outlined'
+            autoOk={true}
+            views={['year', 'month']}
+            format='MMMM yyyy'
+          />
+        </MuiPickersUtilsProvider>
       </div>
       <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
@@ -78,7 +92,9 @@ export const Summary = () => {
               <CardIcon color='success'>
                 <Money />
               </CardIcon>
-              <p className={classes.cardCategory}>Money</p>
+              <p className={classes.cardCategory}>
+                <FormattedMessage id='money' />
+              </p>
               <h3 className={classes.cardTitle}>
                 {calculateTotalMoney()}&#8362;
               </h3>
@@ -86,7 +102,8 @@ export const Summary = () => {
             <CardFooter stats>
               <div className={classes.stats}>
                 <DateRange />
-                Working days this month: {monthMassages.length}
+                <FormattedMessage id='working_days' />:
+                <b>{monthMassages.length}</b>
               </div>
             </CardFooter>
           </Card>
@@ -97,13 +114,16 @@ export const Summary = () => {
               <CardIcon color='info'>
                 <Alarm />
               </CardIcon>
-              <p className={classes.cardCategory}>Minutes</p>
+              <p className={classes.cardCategory}>
+                <FormattedMessage id='minutes' />
+              </p>
               <h3 className={classes.cardTitle}>{calculateTotalMinutes()}</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                Hours: {(calculateTotalMinutes() / 60).toFixed(2)}/h
+                <FormattedMessage id='hours' />:{' '}
+                <b>{(calculateTotalMinutes() / 60).toFixed(2)}</b> /h
               </div>
             </CardFooter>
           </Card>
@@ -113,13 +133,22 @@ export const Summary = () => {
         <GridItem xs={12} sm={12} md={6}>
           <Card>
             <CardHeader color='warning'>
-              <h4 className={classes.cardTitleWhite}>Massages</h4>
-              <p className={classes.cardCategoryWhite}>Overview by date</p>
+              <h4 className={classes.cardTitleWhite}>
+                <FormattedMessage id='massages' />
+              </h4>
+              <p className={classes.cardCategoryWhite}>
+                <FormattedMessage id='overview_by_date' />
+              </p>
             </CardHeader>
             <CardBody>
               <Table
                 tableHeaderColor='warning'
-                tableHead={['Date', 'Minutes', 'Hours', 'Salary']}
+                tableHead={[
+                  <FormattedMessage id='date' />,
+                  <FormattedMessage id='minutes' />,
+                  <FormattedMessage id='hours' />,
+                  <FormattedMessage id='salary' />
+                ]}
                 tableData={monthMassages.map((m) => [
                   m.date,
                   m.minutes,

@@ -1,4 +1,5 @@
 import { dashboardRoutes as routes } from '../Router';
+import { FormattedMessage } from 'react-intl';
 
 export const useRouteName = () => {
   let name = '';
@@ -7,5 +8,5 @@ export const useRouteName = () => {
       name = route.name;
     }
   });
-  return name || 'Dashboard';
+  return name || <FormattedMessage id='dashboard' />;
 };

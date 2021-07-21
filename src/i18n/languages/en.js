@@ -34,6 +34,8 @@ const translations = {
   dashboard: 'Dashboard',
   summary: 'Summary',
   profile: 'Profile',
+  thai: 'Thai',
+  english: 'English',
 
   //dashboard
   today: 'Today',

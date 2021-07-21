@@ -224,6 +224,24 @@ const sidebarStyle = (theme) => ({
       width: '100%',
       bottom: '13px'
     }
+  },
+  languageContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    marginTop: '100px'
+  },
+  languageButton: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    background: blackColor,
+    color: whiteColor
+  },
+  flag: {
+    width: '30px',
+    marginRight: '10px'
   }
 });
 

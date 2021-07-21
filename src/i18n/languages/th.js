@@ -34,6 +34,8 @@ const translations = {
   dashboard: 'รายงานประจำวัน',
   summary: 'รายงานเดือนและปี',
   profile: 'ข้อมูลส่วนตัว',
+  thai: 'ภาษาไทย',
+  english: 'ภาษาอังกฤษ',
 
   // dashboard
   today: 'วันนี้',

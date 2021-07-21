@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
 import { NavLink, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Icon from '@material-ui/core/Icon';
+import {
+  Drawer,
+  Button,
+  Hidden,
+  List,
+  ListItem,
+  ListItemText,
+  Icon,
+  Checkbox
+} from '@material-ui/core';
 import Close from '@material-ui/icons/CloseRounded';
+import Check from '@material-ui/icons/CheckRounded';
+import { FormattedMessage } from 'react-intl';
 
 import styles from '../assets/jss/material-dashboard-react/components/sidebarStyle.js';
+import ThaiFlag from '../assets/img/thai-flag.png';
+import EnglishFlag from '../assets/img/english-flag.png';
+import { AppContext } from '../contexts/AppContext.js';
 
 const useStyles = makeStyles(styles);
 
@@ -23,7 +32,9 @@ export const Sidebar = ({
   handleDrawerToggle
 }) => {
   const classes = useStyles();
+  const { dispatch, language } = useContext(AppContext);
   let location = useLocation();
+
   function activeRoute(routeName) {
     if (routeName === '/dashboard') {
       return location.pathname === routeName || location.pathname === '/';
@@ -31,55 +42,89 @@ export const Sidebar = ({
     return location.pathname === routeName;
   }
 
+  const setLanguage = (lan) => {
+    dispatch({ type: 'SET_LANGUAGE', payload: lan });
+  };
+
   var links = (
-    <List className={classes.list}>
-      {routes.map((prop, key) => {
-        var activePro = ' ';
+    <>
+      <List className={classes.list}>
+        {routes.map((prop, key) => {
+          var activePro = ' ';
 
-        const listItemClasses = classNames({
-          [' ' + classes[color]]: activeRoute(prop.layout + prop.path)
-        });
+          const listItemClasses = classNames({
+            [' ' + classes[color]]: activeRoute(prop.layout + prop.path)
+          });
 
-        const whiteFontClasses = classNames({
-          [' ' + classes.whiteFont]: activeRoute(prop.layout + prop.path)
-        });
+          const whiteFontClasses = classNames({
+            [' ' + classes.whiteFont]: activeRoute(prop.layout + prop.path)
+          });
 
-        return (
-          <NavLink
-            to={prop.layout + prop.path}
-            className={activePro + classes.item}
-            activeClassName='active'
-            key={key}
-            onClick={open ? () => handleDrawerToggle() : null}
-          >
-            <ListItem button className={classes.itemLink + listItemClasses}>
-              {typeof prop.icon === 'string' ? (
-                <Icon
-                  className={classNames(classes.itemIcon, whiteFontClasses, {
-                    [classes.itemIconRTL]: rtlActive
+          return (
+            <NavLink
+              to={prop.layout + prop.path}
+              className={activePro + classes.item}
+              activeClassName='active'
+              key={key}
+              onClick={open ? () => handleDrawerToggle() : null}
+            >
+              <ListItem button className={classes.itemLink + listItemClasses}>
+                {typeof prop.icon === 'string' ? (
+                  <Icon
+                    className={classNames(classes.itemIcon, whiteFontClasses, {
+                      [classes.itemIconRTL]: rtlActive
+                    })}
+                  >
+                    {prop.icon}
+                  </Icon>
+                ) : (
+                  <prop.icon
+                    className={classNames(classes.itemIcon, whiteFontClasses, {
+                      [classes.itemIconRTL]: rtlActive
+                    })}
+                  />
+                )}
+                <ListItemText
+                  primary={rtlActive ? prop.rtlName : prop.name}
+                  className={classNames(classes.itemText, whiteFontClasses, {
+                    [classes.itemTextRTL]: rtlActive
                   })}
-                >
-                  {prop.icon}
-                </Icon>
-              ) : (
-                <prop.icon
-                  className={classNames(classes.itemIcon, whiteFontClasses, {
-                    [classes.itemIconRTL]: rtlActive
-                  })}
+                  disableTypography={true}
                 />
-              )}
-              <ListItemText
-                primary={rtlActive ? prop.rtlName : prop.name}
-                className={classNames(classes.itemText, whiteFontClasses, {
-                  [classes.itemTextRTL]: rtlActive
-                })}
-                disableTypography={true}
-              />
-            </ListItem>
-          </NavLink>
-        );
-      })}
-    </List>
+              </ListItem>
+            </NavLink>
+          );
+        })}
+      </List>
+      <div className={classes.languageContainer}>
+        <Button
+          variant='outlined'
+          className={classes.languageButton}
+          onClick={() => setLanguage('th')}
+        >
+          <Checkbox
+            icon={<Check />}
+            checkedIcon={<Check style={{ color: '#fff' }} />}
+            checked={language === 'th'}
+          />
+          <img src={ThaiFlag} alt='thai flag' className={classes.flag} />
+          <FormattedMessage id='thai' />
+        </Button>
+        <Button
+          variant='outlined'
+          className={classes.languageButton}
+          onClick={() => setLanguage('en')}
+        >
+          <Checkbox
+            icon={<Check />}
+            checkedIcon={<Check style={{ color: '#fff' }} />}
+            checked={language === 'en'}
+          />
+          <img src={EnglishFlag} alt='english flag' className={classes.flag} />
+          <FormattedMessage id='english' />
+        </Button>
+      </div>
+    </>
   );
   var brand = (
     <div className={classes.logo}>

@@ -61,9 +61,20 @@ export const Summary = () => {
     return total;
   };
 
+  const calculateTotalHours = (minutes) => {
+    let total = minutes / 60;
+    if (total % 1 === 0) {
+      return total;
+    }
+    const roundTotal = Math.trunc(total);
+    const decimal = Math.round((total - roundTotal).toFixed(2) * 60) / 100;
+    return (roundTotal + decimal).toFixed(2);
+  };
+
   const roundNumber = (total) => {
     return total % 1 === 0 ? total : total.toFixed(2);
   };
+
   return (
     <div>
       <div className={classes.dateWrapper}>
@@ -123,7 +134,7 @@ export const Summary = () => {
               <div className={classes.stats}>
                 <Update />
                 <FormattedMessage id='hours' />:{' '}
-                <b>{(calculateTotalMinutes() / 60).toFixed(2)}</b> /h
+                <b>{calculateTotalHours(calculateTotalMinutes())}</b> /h
               </div>
             </CardFooter>
           </Card>
@@ -152,7 +163,7 @@ export const Summary = () => {
                 tableData={monthMassages.map((m) => [
                   m.date,
                   m.minutes,
-                  `${roundNumber(m.minutes / 60)} /h`,
+                  `${calculateTotalHours(m.minutes)} /h`,
                   `${roundNumber((m.minutes / 60) * 100)} ₪`
                 ])}
               />

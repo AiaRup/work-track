@@ -43,7 +43,9 @@ export const Sidebar = ({
   }
 
   const setLanguage = (lan) => {
-    dispatch({ type: 'SET_LANGUAGE', payload: lan });
+    if (lan !== language) {
+      dispatch({ type: 'SET_LANGUAGE', payload: lan });
+    }
   };
 
   var links = (

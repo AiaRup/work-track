@@ -104,7 +104,12 @@ export const Dashboard = () => {
 
   const calculateTotalHours = () => {
     let total = calculateTotalMinutes() / 60;
-    return total % 1 === 0 ? total : total.toFixed(2);
+    if (total % 1 === 0) {
+      return total;
+    }
+    const roundTotal = Math.trunc(total);
+    const decimal = Math.round((total - roundTotal).toFixed(2) * 60) / 100;
+    return (roundTotal + decimal).toFixed(2);
   };
 
   return (

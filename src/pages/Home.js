@@ -26,7 +26,7 @@ const switchRoutes = (
   />
 );
 
-export const Home = () => {
+export default function Home() {
   const classes = useStyles();
   const mainPanel = React.createRef();
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -71,6 +71,4 @@ export const Home = () => {
       </div>
     </div>
   );
-};
-
-export default Home;
+}

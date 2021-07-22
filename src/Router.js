@@ -5,6 +5,7 @@ import Person from '@material-ui/icons/Person';
 import { FormattedMessage } from 'react-intl';
 
 import { Dashboard as DashboardPage, Profile, Summary } from './views';
+import Loading from './pages/Loading';
 
 import { AppContext } from './contexts';
 
@@ -40,7 +41,7 @@ export const Router = () => {
   const { user } = useContext(AppContext);
 
   return (
-    <Suspense fallback={<span>loading...</span>}>
+    <Suspense fallback={Loading}>
       <BrowserRouter>
         {user ? (
           <Route path='/' component={Home} />

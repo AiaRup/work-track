@@ -9,17 +9,46 @@ import { config } from '../config';
   ? firebase.initializeApp(config.firebase)
   : firebase.app();
 
-const db = firebase.firestore();
+// Auth
+export const firebaseAuth = firebase.auth();
 
-export const authenticateAnonymously = () => {
-  return firebase.auth().signInAnonymously();
-};
+// window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+//   'sign-in-button',
+//   {
+//     size: 'invisible',
+//     callback: (response) => {
+//       reCAPTCHA solved, allow signInWithPhoneNumber.
+//       onSignInSubmit();
+//     }
+//   }
+// );
+
+// const onSignInSubmit = (event, phoneNumber = '+911234567899') => {
+//   event.preventDefault();
+//   const appVerifier = window.recaptchaVerifier;
+//   firebase
+//     .auth()
+//     .signInWithPhoneNumber(phoneNumber, appVerifier)
+//     .then((confirmationResult) => {
+//       // SMS sent. Prompt user to type the code from the message, then sign the
+//       // user in with confirmationResult.confirm(code).
+//       window.confirmationResult = confirmationResult;
+//       // ...
+//     })
+//     .catch((error) => {
+//       // Error; SMS not sent
+//       console.log('error', error);
+//       // ...
+//     });
+// };
+
+// Firestore - DB
+const db = firebase.firestore();
+const COLLECTION = 'massages';
 
 const createTimpstamp = (date) => {
   return firebase.firestore.Timestamp.fromDate(date);
 };
-
-const COLLECTION = 'massages';
 
 export const addMassage = (massage) => {
   return db.collection(COLLECTION).add({

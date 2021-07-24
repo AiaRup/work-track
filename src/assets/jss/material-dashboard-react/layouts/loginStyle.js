@@ -1,3 +1,5 @@
+import { grayColor } from '../../material-dashboard-react';
+
 const loginStyle = (theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -7,7 +9,7 @@ const loginStyle = (theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: grayColor[0]
   },
   form: {
     width: '100%',

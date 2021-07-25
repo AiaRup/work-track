@@ -10,6 +10,7 @@ export { CustomTable as Table } from './Table';
 export { ProfileSettings } from './ProfileSettings';
 export { ChangePassword } from './ChangePassword';
 export { CodeModal } from './CodeModal';
+export { LanguageSelect } from './LanguageSelect';
 export {
   Card,
   CardAvatar,

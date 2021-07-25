@@ -10,7 +10,7 @@ import Container from '@material-ui/core/Container';
 import { FormattedMessage } from 'react-intl';
 
 import loginStyle from '../assets/jss/material-dashboard-react/layouts/loginStyle';
-import { CodeModal } from '../components';
+import { CodeModal, LanguageSelect } from '../components';
 
 const useStyles = makeStyles(loginStyle);
 
@@ -26,7 +26,7 @@ export default function SignIn() {
 
   return (
     <Container component='main' maxWidth='xs'>
-      <CssBaseline />
+      {/* <LanguageSelect /> */}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -54,6 +54,7 @@ export default function SignIn() {
             variant='contained'
             color='primary'
             className={classes.submit}
+            disabled={phoneNumber.length !== 10}
           >
             <FormattedMessage id='signin' />
           </Button>

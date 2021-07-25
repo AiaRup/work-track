@@ -18,9 +18,6 @@ const modalStyle = {
   content: {
     padding: '20px'
   },
-  actions: {
-    padding: '20px'
-  },
   closeButton: {
     position: 'absolute',
     right: '10px',
@@ -67,6 +64,9 @@ const modalStyle = {
     bottom: 0,
     right: 0,
     boxShadow: '0 0 0 4px rgba(156, 39, 176, 0.28)'
+  },
+  actions: {
+    justifyContent: 'space-between'
   },
   anotherCode: {
     border: 0,

@@ -5,7 +5,6 @@ import {
   DialogContent,
   DialogActions,
   IconButton,
-  Typography,
   Divider
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -58,8 +57,6 @@ export const CodeModal = ({
   const handleBlur = () => {
     setFocused(false);
   };
-
-  console.log('code', code);
 
   return (
     <Dialog
@@ -120,7 +117,7 @@ export const CodeModal = ({
           </div>
         </div>
 
-        <DialogActions>
+        <DialogActions className={classes.actions}>
           <button className={classes.anotherCode} onClick={resendCode}>
             Send another code
           </button>

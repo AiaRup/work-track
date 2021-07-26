@@ -11,47 +11,73 @@ import { config } from '../config';
 
 // Auth
 export const firebaseAuth = firebase.auth();
+const db = firebase.firestore();
 
-// window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-//   'sign-in-button',
-//   {
-//     size: 'invisible',
-//     callback: (response) => {
-//       reCAPTCHA solved, allow signInWithPhoneNumber.
-//       onSignInSubmit();
-//     }
-//   }
-// );
+const configureRecaptcha = () => {
+  window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+    'sign-in-button',
+    {
+      size: 'invisible',
+      callback: (response) => {
+        onPhoneNumberSubmit();
+        console.log('reCAPTCHA solved');
+      },
+      defaultCountry: 'IL'
+    }
+  );
+};
 
-// const onSignInSubmit = (event, phoneNumber = '+911234567899') => {
-//   event.preventDefault();
-//   const appVerifier = window.recaptchaVerifier;
-//   firebase
-//     .auth()
-//     .signInWithPhoneNumber(phoneNumber, appVerifier)
-//     .then((confirmationResult) => {
-//       // SMS sent. Prompt user to type the code from the message, then sign the
-//       // user in with confirmationResult.confirm(code).
-//       window.confirmationResult = confirmationResult;
-//       // ...
-//     })
-//     .catch((error) => {
-//       // Error; SMS not sent
-//       console.log('error', error);
-//       // ...
-//     });
-// };
+export const onPhoneNumberSubmit = (event, phoneNumber) => {
+  event.preventDefault();
+  configureRecaptcha();
+  const appVerifier = window.recaptchaVerifier;
+  firebase
+    .auth()
+    .signInWithPhoneNumber(`+972${phoneNumber}`, appVerifier)
+    .then((confirmationResult) => {
+      window.confirmationResult = confirmationResult;
+      console.log('OTP has been send.');
+    })
+    .catch((error) => {
+      console.log('Error sending OTP', error);
+    });
+};
+
+export const onCodeSubmit = async (e, code) => {
+  e.preventDefault();
+  try {
+    const result = await window.confirmationResult.confirm(code);
+    console.log('result', JSON.stringify(result.user));
+
+    return result.user;
+  } catch (error) {
+    console.log('Error entering code', error);
+    return undefined;
+  }
+};
+
+const USERS_COLLECTION = 'users';
+
+export const addUser = (user) => {
+  return db.collection(USERS_COLLECTION).add({
+    ...user,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+};
+
+export const getUserByAuthId = (authId) => {
+  return db.collection(USERS_COLLECTION).where('authId', '==', authId).get();
+};
 
 // Firestore - DB
-const db = firebase.firestore();
-const COLLECTION = 'massages';
+const MASSAGES_COLLECTION = 'massages';
 
 const createTimpstamp = (date) => {
   return firebase.firestore.Timestamp.fromDate(date);
 };
 
 export const addMassage = (massage) => {
-  return db.collection(COLLECTION).add({
+  return db.collection(MASSAGES_COLLECTION).add({
     ...massage,
     date: createTimpstamp(massage.date.toDate()),
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -59,14 +85,14 @@ export const addMassage = (massage) => {
 };
 
 export const getMassageById = (id) => {
-  return db.collection(COLLECTION).doc(id).get();
+  return db.collection(MASSAGES_COLLECTION).doc(id).get();
 };
 
 export const getMassagesByDateRange = async (user, date, type = 'date') => {
   const startDate = dayjs(date).startOf(type).toDate();
   const endDate = dayjs(date).endOf(type).toDate();
   const snapshot = await db
-    .collection(COLLECTION)
+    .collection(MASSAGES_COLLECTION)
     // .where('user', '==', user)
     .where('date', '>=', createTimpstamp(startDate))
     .where('date', '<=', createTimpstamp(endDate))
@@ -92,7 +118,7 @@ export const getMassagesByDateRange = async (user, date, type = 'date') => {
 
 export const updateMassage = (id, massage) => {
   return db
-    .collection(COLLECTION)
+    .collection(MASSAGES_COLLECTION)
     .where('id', '==', id)
     .get()
     .then(function (querySnapshot) {
@@ -104,7 +130,7 @@ export const updateMassage = (id, massage) => {
 
 export const deleteMassage = (id) => {
   return db
-    .collection(COLLECTION)
+    .collection(MASSAGES_COLLECTION)
     .where('id', '==', id)
     .get()
     .then(function (querySnapshot) {
@@ -120,7 +146,7 @@ export const streamMassages = (user, date, observer) => {
 
   return (
     db
-      .collection(COLLECTION)
+      .collection(MASSAGES_COLLECTION)
       // .where('user', '==', user)
       .where('date', '>=', createTimpstamp(startDate))
       .where('date', '<=', createTimpstamp(endDate))

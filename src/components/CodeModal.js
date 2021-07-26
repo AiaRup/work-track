@@ -10,20 +10,17 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { FormattedMessage } from 'react-intl';
+import { useHistory } from 'react-router-dom';
 
 import { CustomButton } from './Button';
 import styles from '../assets/jss/material-dashboard-react/components/codeModalStyle.js';
+import { getUserByAuthId, onCodeSubmit } from '../services/firebase';
 
 const useStyles = makeStyles(styles);
 
-export const CodeModal = ({
-  visible,
-  onOk,
-  onClose,
-  phone = '1234567899',
-  resendCode
-}) => {
+export const CodeModal = ({ visible, onClose, phone }) => {
   const classes = useStyles();
+  const history = useHistory();
   const [code, setCode] = useState('');
   const [focused, setFocused] = useState(false);
   const input = useRef();
@@ -48,14 +45,21 @@ export const CodeModal = ({
     }
   };
 
-  const handleClick = () => {
-    input.current.focus();
-  };
-  const handleFocus = () => {
-    setFocused(true);
-  };
-  const handleBlur = () => {
-    setFocused(false);
+  const finishCodeSubmit = async (e) => {
+    const user = await onCodeSubmit(e, code);
+    if (user) {
+      const registeredUser = await getUserByAuthId(user.uid);
+      if (registeredUser) {
+        history.push({
+          pathname: '/'
+        });
+      } else {
+        history.push({
+          pathname: '/signup',
+          state: { authId: user.uid, phoneNumber: user.phoneNumber }
+        });
+      }
+    }
   };
 
   return (
@@ -83,7 +87,7 @@ export const CodeModal = ({
       <Divider variant='middle' />
       <DialogContent>
         <div className={classes.codeWrapper}>
-          <div className={classes.wrap} onClick={handleClick}>
+          <div className={classes.wrap} onClick={() => input.current.focus()}>
             {CODE_LENGTH.map((v, index) => {
               const selected = values.length === index;
               const filled =
@@ -99,10 +103,11 @@ export const CodeModal = ({
               );
             })}
             <input
+              type='number'
               value=''
               ref={input}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
               onKeyUp={handleKeyUp}
               onChange={handleChange}
               className={classes.input}
@@ -118,14 +123,17 @@ export const CodeModal = ({
         </div>
 
         <DialogActions className={classes.actions}>
-          <button className={classes.anotherCode} onClick={resendCode}>
+          <button
+            className={classes.anotherCode}
+            onClick={(e) => onCodeSubmit(e, code)}
+          >
             Send another code
           </button>
 
           <CustomButton
             autoFocus
             disabled={code.length < 6}
-            onClick={onOk}
+            onClick={(e) => finishCodeSubmit(e)}
             color='primary'
           >
             <FormattedMessage id='verify' />

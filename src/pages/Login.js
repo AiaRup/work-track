@@ -11,6 +11,7 @@ import { FormattedMessage } from 'react-intl';
 
 import loginStyle from '../assets/jss/material-dashboard-react/layouts/loginStyle';
 import { CodeModal, LanguageSelect } from '../components';
+import { onPhoneNumberSubmit } from '../services/firebase';
 
 const useStyles = makeStyles(loginStyle);
 
@@ -21,6 +22,7 @@ export default function SignIn() {
 
   const onSubmitPhoneNumber = (e) => {
     e.preventDefault();
+    onPhoneNumberSubmit(e, phoneNumber);
     setShowModal(true);
   };
 
@@ -34,6 +36,8 @@ export default function SignIn() {
         <Typography component='h1' variant='h5'>
           <FormattedMessage id='signin' />
         </Typography>
+        {/* for recaptcha purpose */}
+        <div id='sign-in-button' />
         <form className={classes.form} onSubmit={onSubmitPhoneNumber}>
           <TextField
             variant='outlined'
@@ -63,9 +67,8 @@ export default function SignIn() {
       <CodeModal
         visible={showModal}
         onClose={() => setShowModal(false)}
-        onOk={() => {}}
         phone={phoneNumber}
-        resendCode={() => {}}
+        setVisible={setShowModal}
       />
     </Container>
   );

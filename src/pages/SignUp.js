@@ -1,18 +1,21 @@
 import React, { useContext, useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
+import {
+  Avatar,
+  Button,
+  TextField,
+  Grid,
+  Typography,
+  Container,
+  MenuItem
+} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import MenuItem from '@material-ui/core/MenuItem';
 import { useLocation, useHistory } from 'react-router-dom';
 
 import signupStyle from '../assets/jss/material-dashboard-react/layouts/signupStyle';
 import { addUser } from '../services/firebase';
 import { AppContext } from '../contexts/AppContext.js';
+import { FormattedMessage } from 'react-intl';
 
 const useStyles = makeStyles(signupStyle);
 
@@ -49,11 +52,10 @@ export default function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign up
+          <FormattedMessage id='signup' />
         </Typography>
         <p>
-          Thank you for trying this app! It's your first login, so please fill
-          in some details:
+          <FormattedMessage id='sign_up_description' />
         </p>
         <form className={classes.form} onSubmit={onSignup}>
           <Grid container spacing={2}>
@@ -65,7 +67,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 id='firstName'
-                label='First Name'
+                label={<FormattedMessage id='first_name' />}
                 autoFocus
                 onInput={(e) => setFirstName(e.target.value)}
               />
@@ -76,7 +78,7 @@ export default function SignUp() {
                 required
                 fullWidth
                 id='lastName'
-                label='Last Name'
+                label={<FormattedMessage id='last_name' />}
                 name='lastName'
                 autoComplete='lname'
                 onInput={(e) => setLastName(e.target.value)}
@@ -87,10 +89,10 @@ export default function SignUp() {
                 variant='outlined'
                 fullWidth
                 id='phone'
-                label='Phone'
+                label={<FormattedMessage id='phone' />}
                 name='phone'
                 inputProps={{ readOnly: true }}
-                defaultValue={location.state.phoneNumber}
+                defaultValue={location.state?.phoneNumber}
               />
             </Grid>
             <Grid item xs={12}>
@@ -98,15 +100,15 @@ export default function SignUp() {
                 fullWidth
                 id='salary-hour'
                 select
-                label='Paid by hour'
+                label={<FormattedMessage id='wage_for_hour' />}
                 variant='outlined'
-                helperText='The salary for one hour of massage, in shekels'
+                helperText={<FormattedMessage id='wage_description' />}
                 onChange={(e) => setHourSalary(e.target.value)}
               >
-                <MenuItem value={60}>60</MenuItem>
-                <MenuItem value={75}>75</MenuItem>
-                <MenuItem value={80}>80</MenuItem>
-                <MenuItem value={100}>100</MenuItem>
+                <MenuItem value={60}>60&#8362;</MenuItem>
+                <MenuItem value={75}>75&#8362;</MenuItem>
+                <MenuItem value={80}>80&#8362;</MenuItem>
+                <MenuItem value={100}>100&#8362;</MenuItem>
               </TextField>
             </Grid>
           </Grid>
@@ -118,7 +120,7 @@ export default function SignUp() {
             className={classes.submit}
             disabled={!firstName || !lastName || !hourSalary}
           >
-            Finish sign up
+            <FormattedMessage id='finish' />
           </Button>
         </form>
       </div>

@@ -72,10 +72,6 @@ body {
   min-height: 100vh;
 }
 
-#root {
-  min-height: 100vh;
-}
-
 blockquote footer:before,
 blockquote small:before {
   content: '\2014 \00A0';
@@ -239,6 +235,7 @@ input[type='number'] {
   html {
     position: relative;
     overflow-x: hidden;
+    padding: 0 !important;
   }
 
   #bodyClick {

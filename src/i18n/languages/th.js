@@ -9,6 +9,7 @@ const translations = {
   next: 'ต่อไป',
   error: 'ผิดพลาด',
   all: 'ทั้งหมด',
+  finish: 'เสร็จสิ้นการลงทะเบียน',
 
   // login form
   password: 'รหัสผ่าน',
@@ -18,6 +19,17 @@ const translations = {
   register_now: 'สมัครตอนนี้',
   logout: 'ออกจากระบบ',
   login: 'เข้าสู่ระบบ',
+  signin: 'เข้าสู่ระบบ',
+  signup: 'ลงชื่อ',
+  phone: 'หมายเลขโทรศัพท์',
+  enter_ten_digits:
+    'โปรดป้อนตัวเลขสิบหลัก (ยกเว้นหมายเลขโทรศัพท์ของอิสราเอลเท่านั้น)',
+  verify: 'ตรวจสอบรหัส',
+
+  // code modal
+  verify_code_message:
+    'มาแน่ใจว่าเป็นคุณจริงๆ ป้อนรหัสยืนยันที่เราส่งไปยังหมายเลขโทรศัพท์ที่ลงท้ายด้วย{code}:',
+  send_another_code: 'ส่งรหัสอื่น',
 
   // register form
   email: 'อีเมล',
@@ -29,6 +41,9 @@ const translations = {
   wage_for_hour: 'ค่าจ้างหนึ่งชั่วโมง',
   save_changes: 'บันทึกการเปลี่ยนแปลง',
   save_new_password: 'บันทึกรหัสผ่านใหม่',
+  wage_description: 'ค่าแรงนวดหนึ่งชั่วโมง',
+  sign_up_description:
+    'ขอบคุณที่ลองใช้แอพนี้! นี่เป็นการเข้าสู่ระบบครั้งแรกของคุณ ดังนั้นโปรดกรอกรายละเอียด:',
 
   // menu
   dashboard: 'รายงานประจำวัน',

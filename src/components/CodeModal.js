@@ -32,6 +32,11 @@ export const CodeModal = ({ visible, onClose, phone }) => {
     values.length < CODE_LENGTH.length ? values.length : CODE_LENGTH.length - 1;
   const hideInput = !(values.length < CODE_LENGTH.length);
 
+  const onModalClose = () => {
+    setCode('');
+    onClose();
+  };
+
   const handleChange = (e) => {
     const value = e.target.value;
 
@@ -48,38 +53,51 @@ export const CodeModal = ({ visible, onClose, phone }) => {
   const finishCodeSubmit = async (e) => {
     const user = await onCodeSubmit(e, code);
     if (user) {
-      const registeredUser = await getUserByAuthId(user.uid);
-      if (registeredUser) {
-        history.push({
-          pathname: '/'
+      getUserByAuthId(user.uid)
+        .then((snapshot) => {
+          if (!snapshot.empty) {
+            const existingUser = snapshot.docs[0].data();
+            // rest of your code
+            console.log('user');
+            if (existingUser) {
+              history.go(0); // refresh page
+            } else {
+              console.log('No data available');
+              history.push({
+                pathname: '/signup',
+                state: {
+                  authId: user.uid,
+                  phoneNumber: `0${user.phoneNumber.slice(4)}`
+                }
+              });
+            }
+          }
+        })
+        .catch((error) => {
+          console.error(error);
         });
-      } else {
-        history.push({
-          pathname: '/signup',
-          state: { authId: user.uid, phoneNumber: user.phoneNumber }
-        });
-      }
     }
   };
 
   return (
     <Dialog
-      onClose={onClose}
+      onClose={onModalClose}
       aria-labelledby='customized-dialog-title'
       open={visible}
       className={classes.modal}
     >
       <DialogTitle disableTypography className={classes.titleWrapper}>
         <p className={classes.title}>
-          {/* <FormattedMessage id='new_massage' /> */}
-          {`Let's make sure it's really you. Enter the verification code we
-            sent to the phone number ending in ${codedNumber}:`}
+          <FormattedMessage
+            id='verify_code_message'
+            values={{ code: codedNumber }}
+          />
         </p>
 
         <IconButton
           aria-label='close'
           className={classes.closeButton}
-          onClick={onClose}
+          onClick={onModalClose}
         >
           <CloseIcon />
         </IconButton>
@@ -127,7 +145,7 @@ export const CodeModal = ({ visible, onClose, phone }) => {
             className={classes.anotherCode}
             onClick={(e) => onCodeSubmit(e, code)}
           >
-            Send another code
+            <FormattedMessage id='send_another_code' />
           </button>
 
           <CustomButton

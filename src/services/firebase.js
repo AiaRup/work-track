@@ -29,6 +29,7 @@ const configureRecaptcha = () => {
 
 export const onPhoneNumberSubmit = (event, phoneNumber) => {
   event.preventDefault();
+  console.log('window.recaptchaVerifier', window.recaptchaVerifier);
   configureRecaptcha();
   const appVerifier = window.recaptchaVerifier;
   firebase

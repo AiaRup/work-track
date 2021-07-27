@@ -9,6 +9,7 @@ const translations = {
   next: 'Next',
   error: 'Error',
   all: 'All',
+  finish: 'Finish',
 
   // login form
   password: 'Password',
@@ -17,7 +18,12 @@ const translations = {
   remember_me: 'Remember me',
   register_now: 'Register now',
   logout: 'Log Out',
-  login: 'Log in',
+  login: 'Log In',
+  signin: 'Sign in',
+  signup: 'Sign up',
+  phone: 'Phone number',
+  enter_ten_digits:
+    'Please enter a ten digits number (only Israeli phone number is excepted)',
 
   // register form
   email: 'Email Address',
@@ -29,6 +35,15 @@ const translations = {
   wage_for_hour: 'Wage for one hour',
   save_changes: 'Save changes',
   save_new_password: 'Save new password',
+  wage_description: 'The salary for one hour of massage',
+  sign_up_description:
+    "Thank you for trying this app! It's your first login, so please fill in some details:",
+
+  // code modal
+  verify_code_message:
+    "Let's make sure it's really you. Enter the verification code we sent to the phone number ending in {code}:",
+  verify: 'Verify',
+  send_another_code: 'Send another code',
 
   // menu
   dashboard: 'Dashboard',

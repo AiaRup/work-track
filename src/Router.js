@@ -1,4 +1,4 @@
-import React, { useContext, lazy, Suspense } from 'react';
+import React, { useContext, lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Dashboard from '@material-ui/icons/Dashboard';
 import Person from '@material-ui/icons/Person';
@@ -6,8 +6,8 @@ import { FormattedMessage } from 'react-intl';
 
 import { Dashboard as DashboardPage, Profile, Summary } from './views';
 import Loading from './pages/Loading';
-
 import { AppContext } from './contexts';
+import { getCurrentUser, getUserByAuthId } from './services/firebase';
 
 const Login = lazy(async () => await import('./pages/Login'));
 const SignUp = lazy(async () => await import('./pages/SignUp'));
@@ -38,7 +38,20 @@ export const dashboardRoutes = [
 ];
 
 export const Router = () => {
-  const { user } = useContext(AppContext);
+  const { user, dispatch } = useContext(AppContext);
+
+  useEffect(() => {
+    // const currentUser = getCurrentUser();
+    // if (currentUser) {
+    //   getUserByAuthId(currentUser.uid).then((snapshot) => {
+    //     const signedUser = snapshot.docs[0]?.data();
+    //     console.log('signedUser', signedUser);
+    //     dispatch({ type: 'LOGIN', payload: signedUser });
+    //   });
+    // } else {
+    //   dispatch({ type: 'LOGOUT' });
+    // }
+  }, [dispatch]);
 
   return (
     <Suspense fallback={Loading}>

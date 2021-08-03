@@ -16,6 +16,7 @@ import signupStyle from '../assets/jss/material-dashboard-react/layouts/signupSt
 import { addUser } from '../services/firebase';
 import { AppContext } from '../contexts/AppContext.js';
 import { FormattedMessage } from 'react-intl';
+import { LanguageSelect } from '../components';
 
 const useStyles = makeStyles(signupStyle);
 
@@ -28,25 +29,28 @@ export default function SignUp() {
   const [lastName, setLastName] = useState('');
   const [hourSalary, setHourSalary] = useState('');
 
-  const onSignup = async () => {
-    const user = await addUser({
-      authId: location.state.auth,
-      phoneNumber: location.state.phoneNumber,
+  const onSignup = async (e) => {
+    e.preventDefault();
+    addUser({
+      authId: location?.state?.auth || '111',
+      phoneNumber: location?.state?.phoneNumber || '1112',
       firstName,
       lastName,
       hourSalary
+    }).then((doc) => {
+      if (doc) {
+        console.log('doc', doc);
+        dispatch({ type: 'LOGIN', payload: doc });
+        history.push({
+          pathname: '/dashboard'
+        });
+      }
     });
-
-    if (user) {
-      dispatch({ type: 'LOGIN', payload: user });
-      history.push({
-        pathname: '/dashboard'
-      });
-    }
   };
 
   return (
     <Container component='main' maxWidth='xs'>
+      <LanguageSelect />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

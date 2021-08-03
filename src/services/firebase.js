@@ -11,7 +11,12 @@ import { config } from '../config';
 
 // Auth
 export const firebaseAuth = firebase.auth();
+firebaseAuth.useDeviceLanguage();
 const db = firebase.firestore();
+
+export const getCurrentUser = () => {
+  return firebaseAuth.currentUser;
+};
 
 const configureRecaptcha = () => {
   window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
@@ -68,6 +73,10 @@ export const addUser = (user) => {
 
 export const getUserByAuthId = (authId) => {
   return db.collection(USERS_COLLECTION).where('authId', '==', authId).get();
+};
+
+export const logout = () => {
+  firebaseAuth.signOut();
 };
 
 // Firestore - DB

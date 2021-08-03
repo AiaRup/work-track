@@ -55,22 +55,18 @@ export const CodeModal = ({ visible, onClose, phone }) => {
     if (user) {
       getUserByAuthId(user.uid)
         .then((snapshot) => {
-          if (!snapshot.empty) {
-            const existingUser = snapshot.docs[0].data();
-            // rest of your code
-            console.log('user');
-            if (existingUser) {
-              history.go(0); // refresh page
-            } else {
-              console.log('No data available');
-              history.push({
-                pathname: '/signup',
-                state: {
-                  authId: user.uid,
-                  phoneNumber: `0${user.phoneNumber.slice(4)}`
-                }
-              });
-            }
+          const existingUser = snapshot.docs[0]?.data();
+          console.log('existingUser', existingUser);
+          if (existingUser) {
+            history.go(0); // refresh page
+          } else {
+            history.push({
+              pathname: '/signup',
+              state: {
+                authId: user.uid,
+                phoneNumber: `0${user.phoneNumber.slice(4)}`
+              }
+            });
           }
         })
         .catch((error) => {

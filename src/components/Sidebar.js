@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import classNames from 'classnames';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Drawer,
@@ -20,6 +20,7 @@ import styles from '../assets/jss/material-dashboard-react/components/sidebarSty
 import ThaiFlag from '../assets/img/thai-flag.png';
 import EnglishFlag from '../assets/img/english-flag.png';
 import { AppContext } from '../contexts/AppContext.js';
+import { logout as firebaseLogout } from '../services/firebase';
 
 const useStyles = makeStyles(styles);
 
@@ -34,6 +35,7 @@ export const Sidebar = ({
   const classes = useStyles();
   const { dispatch, language } = useContext(AppContext);
   let location = useLocation();
+  const history = useHistory();
 
   function activeRoute(routeName) {
     if (routeName === '/dashboard') {
@@ -46,6 +48,15 @@ export const Sidebar = ({
     if (lan !== language) {
       dispatch({ type: 'SET_LANGUAGE', payload: lan });
     }
+  };
+
+  const logout = () => {
+    firebaseLogout().then(() => {
+      dispatch({ type: 'LOGOUT' });
+      history.push({
+        pathname: '/login'
+      });
+    });
   };
 
   var links = (
@@ -126,6 +137,7 @@ export const Sidebar = ({
           <FormattedMessage id='english' />
         </Button>
       </div>
+      <Button onClick={logout}>Logout</Button>
     </>
   );
   var brand = (

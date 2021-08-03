@@ -1,15 +1,36 @@
-import { primaryColor } from '../../material-dashboard-react.js';
+import { grayColor } from '../../material-dashboard-react.js';
 
 const languageSelectStyle = {
-  container: {
-    background: 'transparent',
-    border: 0,
-    padding: 0
+  icon: {
+    display: 'none'
   },
-  root: {
-    background: 'transparent',
+  selectOptions: {
+    background: grayColor[5],
     border: 0,
-    padding: 0
+    borderRadius: '40px',
+    padding: 6,
+    '&:before': {
+      border: 0
+    },
+    '&:after': {
+      border: 0
+    },
+    '&:hover': {
+      border: 0,
+      '&:before': {
+        border: 0
+      }
+    },
+    '& .MuiSelect-filled.MuiSelect-filled': {
+      paddingRight: 10,
+      background: 'transparent'
+    }
+  },
+  option: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px'
   }
 };
+
 export default languageSelectStyle;

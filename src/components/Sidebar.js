@@ -15,6 +15,7 @@ import {
 import Close from '@material-ui/icons/CloseRounded';
 import Check from '@material-ui/icons/CheckRounded';
 import { FormattedMessage } from 'react-intl';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import styles from '../assets/jss/material-dashboard-react/components/sidebarStyle.js';
 import ThaiFlag from '../assets/img/thai-flag.png';
@@ -59,56 +60,74 @@ export const Sidebar = ({
     });
   };
 
-  var links = (
-    <>
-      <List className={classes.list}>
-        {routes.map((prop, key) => {
-          var activePro = ' ';
+  const links = (
+    <List className={classes.list}>
+      {routes.map((prop, key) => {
+        var activePro = ' ';
 
-          const listItemClasses = classNames({
-            [' ' + classes[color]]: activeRoute(prop.layout + prop.path)
-          });
+        const listItemClasses = classNames({
+          [' ' + classes[color]]: activeRoute(prop.layout + prop.path)
+        });
 
-          const whiteFontClasses = classNames({
-            [' ' + classes.whiteFont]: activeRoute(prop.layout + prop.path)
-          });
+        const whiteFontClasses = classNames({
+          [' ' + classes.whiteFont]: activeRoute(prop.layout + prop.path)
+        });
 
-          return (
-            <NavLink
-              to={prop.layout + prop.path}
-              className={activePro + classes.item}
-              activeClassName='active'
-              key={key}
-              onClick={open ? () => handleDrawerToggle() : null}
-            >
-              <ListItem button className={classes.itemLink + listItemClasses}>
-                {typeof prop.icon === 'string' ? (
-                  <Icon
-                    className={classNames(classes.itemIcon, whiteFontClasses, {
-                      [classes.itemIconRTL]: rtlActive
-                    })}
-                  >
-                    {prop.icon}
-                  </Icon>
-                ) : (
-                  <prop.icon
-                    className={classNames(classes.itemIcon, whiteFontClasses, {
-                      [classes.itemIconRTL]: rtlActive
-                    })}
-                  />
-                )}
-                <ListItemText
-                  primary={rtlActive ? prop.rtlName : prop.name}
-                  className={classNames(classes.itemText, whiteFontClasses, {
-                    [classes.itemTextRTL]: rtlActive
+        return (
+          <NavLink
+            to={prop.layout + prop.path}
+            className={activePro + classes.item}
+            activeClassName='active'
+            key={key}
+            onClick={open ? () => handleDrawerToggle() : null}
+          >
+            <ListItem button className={classes.itemLink + listItemClasses}>
+              {typeof prop.icon === 'string' ? (
+                <Icon
+                  className={classNames(classes.itemIcon, whiteFontClasses, {
+                    [classes.itemIconRTL]: rtlActive
                   })}
-                  disableTypography={true}
+                >
+                  {prop.icon}
+                </Icon>
+              ) : (
+                <prop.icon
+                  className={classNames(classes.itemIcon, whiteFontClasses, {
+                    [classes.itemIconRTL]: rtlActive
+                  })}
                 />
-              </ListItem>
-            </NavLink>
-          );
+              )}
+              <ListItemText
+                primary={rtlActive ? prop.rtlName : prop.name}
+                className={classNames(classes.itemText, whiteFontClasses, {
+                  [classes.itemTextRTL]: rtlActive
+                })}
+                disableTypography={true}
+              />
+            </ListItem>
+          </NavLink>
+        );
+      })}
+    </List>
+  );
+
+  const brand = (
+    <div className={classes.logo}>
+      <span
+        className={classNames(classes.logoLink, {
+          [classes.logoLinkRTL]: rtlActive
         })}
-      </List>
+      >
+        {logoText}
+        <Hidden mdUp implementation='css'>
+          <Close onClick={handleDrawerToggle} className={classes.closeIcon} />
+        </Hidden>
+      </span>
+    </div>
+  );
+
+  const menuLanguages = (
+    <>
       <div className={classes.languageContainer}>
         <Button
           variant='outlined'
@@ -137,22 +156,11 @@ export const Sidebar = ({
           <FormattedMessage id='english' />
         </Button>
       </div>
-      <Button onClick={logout}>Logout</Button>
+      <Button onClick={logout} className={classes.logoutButton}>
+        <ExitToAppIcon className={classes.itemIcon} />
+        <FormattedMessage id='logout' />
+      </Button>
     </>
-  );
-  var brand = (
-    <div className={classes.logo}>
-      <span
-        className={classNames(classes.logoLink, {
-          [classes.logoLinkRTL]: rtlActive
-        })}
-      >
-        {logoText}
-        <Hidden mdUp implementation='css'>
-          <Close onClick={handleDrawerToggle} className={classes.closeIcon} />
-        </Hidden>
-      </span>
-    </div>
   );
   return (
     <div>
@@ -173,6 +181,7 @@ export const Sidebar = ({
         >
           {brand}
           <div className={classes.sidebarWrapper}>{links}</div>
+          {menuLanguages}
         </Drawer>
       </Hidden>
       <Hidden smDown implementation='css'>
@@ -188,6 +197,7 @@ export const Sidebar = ({
         >
           {brand}
           <div className={classes.sidebarWrapper}>{links}</div>
+          {menuLanguages}
         </Drawer>
       </Hidden>
     </div>

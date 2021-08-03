@@ -64,7 +64,6 @@ const sidebarStyle = (theme) => ({
       content: '""',
       position: 'absolute',
       bottom: '0',
-
       height: '1px',
       right: '15px',
       width: 'calc(100% - 30px)',
@@ -136,7 +135,7 @@ const sidebarStyle = (theme) => ({
     paddingLeft: '0',
     paddingTop: '0',
     paddingBottom: '0',
-    marginBottom: '0',
+    marginBottom: '20px',
     listStyle: 'none',
     position: 'unset'
   },
@@ -212,11 +211,20 @@ const sidebarStyle = (theme) => ({
   },
   sidebarWrapper: {
     position: 'relative',
-    height: 'calc(100vh - 75px)',
+    // height: 'calc(100vh - 75px)',
     overflow: 'auto',
     width: '260px',
     zIndex: '4',
-    overflowScrolling: 'touch'
+    overflowScrolling: 'touch',
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      bottom: '0',
+      height: '1px',
+      right: '15px',
+      width: 'calc(100% - 30px)',
+      backgroundColor: 'rgba(' + hexToRgb(grayColor[6]) + ', 0.3)'
+    }
   },
   activePro: {
     [theme.breakpoints.up('md')]: {
@@ -230,7 +238,17 @@ const sidebarStyle = (theme) => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    marginTop: '100px'
+    marginTop: '20px',
+    position: 'relative',
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      bottom: '0',
+      height: '1px',
+      right: '15px',
+      width: 'calc(100% - 30px)',
+      backgroundColor: 'rgba(' + hexToRgb(grayColor[6]) + ', 0.3)'
+    }
   },
   languageButton: {
     display: 'flex',
@@ -242,6 +260,21 @@ const sidebarStyle = (theme) => ({
   flag: {
     width: '30px',
     marginRight: '10px'
+  },
+  logoutButton: {
+    display: 'block',
+    marginTop: '20px',
+    color: whiteColor,
+    marginLeft: '35px',
+    padding: 0,
+    textTransform: 'capitalize',
+    fontSize: '14px',
+    fontFamily: 'Roboto',
+    fontWeight: 300,
+    lineHeight: '30px'
+  },
+  logoutIcon: {
+    marginRight: '15px'
   }
 });
 

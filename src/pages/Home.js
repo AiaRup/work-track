@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Footer, Sidebar, Navbar } from '../components';
 import { dashboardRoutes } from '../Router.js';
-
 import { Dashboard, Profile, Summary } from '../views';
 import styles from '../assets/jss/material-dashboard-react/layouts/adminStyle.js';
 

@@ -42,25 +42,11 @@ export const ProfileSettings = () => {
       <Grid item xs={12}>
         <TextField
           variant='outlined'
-          required
           fullWidth
-          id='email'
-          label={<FormattedMessage id='email' />}
-          name='email'
-          autoComplete='email'
-          className={classes.input}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          variant='outlined'
-          required
-          fullWidth
-          name='password'
-          label={<FormattedMessage id='password' />}
-          type='password'
-          id='password'
-          autoComplete='current-password'
+          id='phone'
+          label={<FormattedMessage id='phone' />}
+          name='phone'
+          inputProps={{ readOnly: true }}
           className={classes.input}
         />
       </Grid>

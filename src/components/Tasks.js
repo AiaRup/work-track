@@ -1,12 +1,14 @@
 import React from 'react';
 import classnames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
-import Table from '@material-ui/core/Table';
-import TableRow from '@material-ui/core/TableRow';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
+import {
+  Tooltip,
+  IconButton,
+  Table,
+  TableRow,
+  TableBody,
+  TableCell
+} from '@material-ui/core';
 import Edit from '@material-ui/icons/EditOutlined';
 import Delete from '@material-ui/icons/DeleteForeverOutlined';
 import { FormattedMessage } from 'react-intl';

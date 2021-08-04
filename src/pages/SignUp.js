@@ -11,11 +11,11 @@ import {
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { useLocation, useHistory } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 
 import signupStyle from '../assets/jss/material-dashboard-react/layouts/signupStyle';
 import { addUser } from '../services/firebase';
 import { AppContext } from '../contexts/AppContext.js';
-import { FormattedMessage } from 'react-intl';
 import { LanguageSelect } from '../components';
 
 const useStyles = makeStyles(signupStyle);

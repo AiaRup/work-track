@@ -4,11 +4,9 @@ import {
   grayColor,
   blackColor
 } from '../../material-dashboard-react.js';
-import tooltipStyle from '../tooltipStyle.js';
-import checkboxAdnRadioStyle from '../checkboxAdnRadioStyle.js';
+import tooltipStyle from './tooltipStyle.js';
 const tasksStyle = {
   ...tooltipStyle,
-  ...checkboxAdnRadioStyle,
   table: {
     marginBottom: '0',
     overflow: 'visible'

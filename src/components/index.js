@@ -4,13 +4,12 @@ export { Footer } from './Footer';
 export { Sidebar } from './Sidebar';
 export { Navbar } from './Navbar';
 export { CustomButton } from './Button';
-export { CustomTabs } from './CustomTabs';
 export { Tasks } from './Tasks';
 export { CustomTable as Table } from './Table';
 export { ProfileSettings } from './ProfileSettings';
-export { ChangePassword } from './ChangePassword';
 export { CodeModal } from './CodeModal';
 export { LanguageSelect } from './LanguageSelect';
+export { GridContainer, GridItem } from './Grid';
 export {
   Card,
   CardAvatar,
@@ -19,4 +18,3 @@ export {
   CardHeader,
   CardIcon
 } from './Card';
-export { GridContainer, GridItem } from './Grid';

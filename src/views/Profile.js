@@ -7,8 +7,7 @@ import {
   Card,
   CardHeader,
   ProfileSettings,
-  CardBody,
-  ChangePassword
+  CardBody
 } from '../components';
 
 export const Profile = () => {
@@ -24,20 +23,6 @@ export const Profile = () => {
             </CardHeader>
             <CardBody>
               <ProfileSettings />
-            </CardBody>
-          </Card>
-        </GridItem>
-      </GridContainer>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
-          <Card>
-            <CardHeader color='rose'>
-              <h4>
-                <FormattedMessage id='settings' />
-              </h4>
-            </CardHeader>
-            <CardBody>
-              <ChangePassword />
             </CardBody>
           </Card>
         </GridItem>

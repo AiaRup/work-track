@@ -14,7 +14,7 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import signupStyle from '../assets/jss/material-dashboard-react/layouts/signupStyle';
-import { addUser } from '../services/firebase';
+import { addUser, getUserById } from '../services/firebase';
 import { AppContext } from '../contexts/AppContext.js';
 import { LanguageSelect } from '../components';
 
@@ -37,13 +37,21 @@ export default function SignUp() {
       firstName,
       lastName,
       hourSalary
-    }).then((doc) => {
-      if (doc) {
-        console.log('doc', doc);
-        dispatch({ type: 'LOGIN', payload: doc });
-        history.push({
-          pathname: '/dashboard'
-        });
+    }).then(async (doc) => {
+      if (doc.id) {
+        const user = await getUserById(doc.id);
+        if (user.exists) {
+          const createdUser = user.data();
+          dispatch({
+            type: 'LOGIN',
+            payload: createdUser
+          });
+          history.push({
+            pathname: '/dashboard'
+          });
+        } else {
+          console.log('No such user!');
+        }
       }
     });
   };

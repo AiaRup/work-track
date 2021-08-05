@@ -75,6 +75,10 @@ export const getUserByAuthId = (authId) => {
   return db.collection(USERS_COLLECTION).where('authId', '==', authId).get();
 };
 
+export const getUserById = (id) => {
+  return db.collection(USERS_COLLECTION).doc(id).get();
+};
+
 export const logout = () => {
   firebaseAuth.signOut();
 };

@@ -10,6 +10,7 @@ export { ProfileSettings } from './ProfileSettings';
 export { CodeModal } from './CodeModal';
 export { LanguageSelect } from './LanguageSelect';
 export { GridContainer, GridItem } from './Grid';
+export { ErrorSnackbar } from './ErrorSnackbar';
 export {
   Card,
   CardAvatar,

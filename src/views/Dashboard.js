@@ -44,7 +44,7 @@ export const Dashboard = () => {
   const { user, language } = useContext(AppContext);
 
   useEffect(() => {
-    const unsubscribe = FirestoreService.streamMassages(user.id, date, {
+    const unsubscribe = FirestoreService.streamMassages(user.authId, date, {
       next: (querySnapshot) => {
         const updatedMassages = querySnapshot.docs.map((docSnapshot) =>
           docSnapshot.data()
@@ -58,7 +58,7 @@ export const Dashboard = () => {
       error: () => console.log('error streaming')
     });
     return unsubscribe;
-  }, [date, user.id]);
+  }, [date, user.authId]);
 
   const handleMassageInsert = ({ type, minutes, id }) => {
     setModalVisible(false);
@@ -71,7 +71,7 @@ export const Dashboard = () => {
         type,
         id: uuidv4(),
         user: user.id,
-        date
+        date: dayjs(date)
       });
     }
   };

@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, MenuItem, TextField, Button } from '@material-ui/core';
+import { Grid, TextField, Button } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 
 import styles from '../assets/jss/material-dashboard-react/components/profileSettingsStyle.js';
@@ -11,6 +11,11 @@ const useStyles = makeStyles(styles);
 export const ProfileSettings = () => {
   const classes = useStyles();
   const { user } = useContext(AppContext);
+  const { dispatch } = useContext(AppContext);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [hourSalary, setHourSalary] = useState(user.hourSalary);
+  const [phone, setPhone] = useState(user.phoneNumber);
 
   return (
     <form className={classes.root} noValidate>
@@ -22,9 +27,11 @@ export const ProfileSettings = () => {
           required
           fullWidth
           id='firstName'
+          defaultValue={firstName}
           label={<FormattedMessage id='first_name' />}
           autoFocus
           className={classes.input}
+          onInput={(e) => setFirstName(e.target.value)}
         />
       </Grid>
       <Grid item xs={12}>
@@ -33,10 +40,12 @@ export const ProfileSettings = () => {
           required
           fullWidth
           id='lastName'
+          defaultValue={lastName}
           label={<FormattedMessage id='last_name' />}
           name='lastName'
           autoComplete='lname'
           className={classes.input}
+          onInput={(e) => setLastName(e.target.value)}
         />
       </Grid>
       <Grid item xs={12}>
@@ -46,26 +55,23 @@ export const ProfileSettings = () => {
           id='phone'
           label={<FormattedMessage id='phone' />}
           name='phone'
+          defaultValue={phone}
           inputProps={{ readOnly: true }}
           className={classes.input}
+          onInput={(e) => setPhone(e.target.value)}
         />
       </Grid>
       <Grid item xs={12}>
         <TextField
+          variant='outlined'
           fullWidth
           id='salary-hour'
-          select
+          defaultValue={hourSalary}
           label={<FormattedMessage id='wage_for_hour' />}
-          value={100}
-          onChange={() => true}
-          variant='outlined'
-          className={classes.input}
-        >
-          <MenuItem value={60}>60</MenuItem>
-          <MenuItem value={75}>75</MenuItem>
-          <MenuItem value={80}>80</MenuItem>
-          <MenuItem value={100}>100</MenuItem>
-        </TextField>
+          name='salary-hour'
+          autoComplete='slalaryHour'
+          onInput={(e) => setHourSalary(Number(e.target.value))}
+        />
       </Grid>
       <Button
         type='submit'

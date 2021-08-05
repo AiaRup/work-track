@@ -5,8 +5,7 @@ import {
   TextField,
   Grid,
   Typography,
-  Container,
-  MenuItem
+  Container
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,8 +31,8 @@ export default function SignUp() {
   const onSignup = async (e) => {
     e.preventDefault();
     addUser({
-      authId: location?.state?.auth || '111',
-      phoneNumber: location?.state?.phoneNumber || '1112',
+      authId: location?.state?.authId,
+      phoneNumber: location?.state?.phoneNumber,
       firstName,
       lastName,
       hourSalary
@@ -43,7 +42,7 @@ export default function SignUp() {
         if (user.exists) {
           const createdUser = user.data();
           dispatch({
-            type: 'LOGIN',
+            type: 'SET_USER',
             payload: createdUser
           });
           history.push({
@@ -109,19 +108,14 @@ export default function SignUp() {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                variant='outlined'
                 fullWidth
                 id='salary-hour'
-                select
                 label={<FormattedMessage id='wage_for_hour' />}
-                variant='outlined'
-                helperText={<FormattedMessage id='wage_description' />}
-                onChange={(e) => setHourSalary(e.target.value)}
-              >
-                <MenuItem value={60}>60&#8362;</MenuItem>
-                <MenuItem value={75}>75&#8362;</MenuItem>
-                <MenuItem value={80}>80&#8362;</MenuItem>
-                <MenuItem value={100}>100&#8362;</MenuItem>
-              </TextField>
+                name='salary-hour'
+                autoComplete='salaryHour'
+                onInput={(e) => setHourSalary(Number(e.target.value))}
+              />
             </Grid>
           </Grid>
           <Button

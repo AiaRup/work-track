@@ -4,7 +4,7 @@ export const reducer = (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case 'LOGIN':
+    case 'SET_USER':
       return {
         ...state,
         user: payload

@@ -15,7 +15,7 @@ firebaseAuth.useDeviceLanguage();
 const db = firebase.firestore();
 
 export const getCurrentUser = () => {
-  return firebaseAuth.currentUser;
+  return firebase.auth().currentUser;
 };
 
 const configureRecaptcha = () => {
@@ -23,7 +23,7 @@ const configureRecaptcha = () => {
     'sign-in-button',
     {
       size: 'invisible',
-      callback: (response) => {
+      callback: () => {
         onPhoneNumberSubmit();
         console.log('reCAPTCHA solved');
       },
@@ -34,7 +34,6 @@ const configureRecaptcha = () => {
 
 export const onPhoneNumberSubmit = (event, phoneNumber) => {
   event.preventDefault();
-  console.log('window.recaptchaVerifier', window.recaptchaVerifier);
   configureRecaptcha();
   const appVerifier = window.recaptchaVerifier;
   firebase
@@ -42,7 +41,6 @@ export const onPhoneNumberSubmit = (event, phoneNumber) => {
     .signInWithPhoneNumber(`+972${phoneNumber}`, appVerifier)
     .then((confirmationResult) => {
       window.confirmationResult = confirmationResult;
-      console.log('OTP has been send.');
     })
     .catch((error) => {
       console.log('Error sending OTP', error);
@@ -53,8 +51,6 @@ export const onCodeSubmit = async (e, code) => {
   e.preventDefault();
   try {
     const result = await window.confirmationResult.confirm(code);
-    console.log('result', JSON.stringify(result.user));
-
     return result.user;
   } catch (error) {
     console.log('Error entering code', error);

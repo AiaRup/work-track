@@ -39,10 +39,10 @@ export const Summary = () => {
   const { user, language } = useContext(AppContext);
 
   useEffect(() => {
-    FirestoreService.getMassagesByDateRange(user.authId, month, 'month')
+    FirestoreService.getMassagesByDateRange(user.id, month, 'month')
       .then((data) => setMonthMassages(data))
       .catch((e) => console.log('error getting month massages', e));
-  }, [month, user.authId]);
+  }, [month, user.id]);
 
   const calculateTotalMoney = () => {
     let total = 0;

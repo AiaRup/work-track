@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import * as dayjs from 'dayjs';
+import { v4 as uuidv4 } from 'uuid';
 
 import { config } from '../config';
 
@@ -63,6 +64,7 @@ const USERS_COLLECTION = 'users';
 export const addUser = (user) => {
   return db.collection(USERS_COLLECTION).add({
     ...user,
+    id: uuidv4().toUpperCase(),
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   });
 };
@@ -98,14 +100,14 @@ export const getMassageById = (id) => {
   return db.collection(MASSAGES_COLLECTION).doc(id).get();
 };
 
-export const getMassagesByDateRange = async (user, date, type = 'date') => {
+export const getMassagesByDateRange = async (userId, date, type = 'date') => {
   const startDate = dayjs(date).startOf(type).toDate();
   const endDate = dayjs(date).endOf(type).toDate();
   const snapshot = await db
     .collection(MASSAGES_COLLECTION)
-    // .where('user', '==', user)
     .where('date', '>=', createTimpstamp(startDate))
     .where('date', '<=', createTimpstamp(endDate))
+    .where('user', '==', userId)
     .get();
   const arrayWithDates = snapshot.docs.map((doc) => {
     const data = doc.data();
@@ -150,17 +152,15 @@ export const deleteMassage = (id) => {
     });
 };
 
-export const streamMassages = (user, date, observer) => {
+export const streamMassages = (userId, date, observer) => {
   const startDate = dayjs(date).startOf('date').toDate();
   const endDate = dayjs(date).endOf('date').toDate();
 
-  return (
-    db
-      .collection(MASSAGES_COLLECTION)
-      // .where('user', '==', user)
-      .where('date', '>=', createTimpstamp(startDate))
-      .where('date', '<=', createTimpstamp(endDate))
-      .orderBy('date')
-      .onSnapshot(observer)
-  );
+  return db
+    .collection(MASSAGES_COLLECTION)
+    .where('date', '>=', createTimpstamp(startDate))
+    .where('date', '<=', createTimpstamp(endDate))
+    .where('user', '==', userId)
+    .orderBy('date')
+    .onSnapshot(observer);
 };

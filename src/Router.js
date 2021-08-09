@@ -39,26 +39,26 @@ export const dashboardRoutes = [
 
 export const Router = () => {
   const { user, dispatch } = useContext(AppContext);
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   firebaseAuth.onAuthStateChanged(function (currentUser) {
-  //     if (currentUser) {
-  //       getUserByAuthId(currentUser.uid).then((snapshot) => {
-  //         const signedUser = snapshot.docs[0]?.data();
-  //         dispatch({ type: 'SET_USER', payload: signedUser });
-  //         setLoading(false);
-  //       });
-  //     } else {
-  //       console.log('no user is signed in');
-  //       setLoading(false);
-  //     }
-  //   });
-  // }, [dispatch]);
+  useEffect(() => {
+    firebaseAuth.onAuthStateChanged(function (currentUser) {
+      if (currentUser) {
+        getUserByAuthId(currentUser.uid).then((snapshot) => {
+          const signedUser = snapshot.docs[0]?.data();
+          dispatch({ type: 'SET_USER', payload: signedUser });
+          setLoading(false);
+        });
+      } else {
+        console.log('no user is signed in');
+        setLoading(false);
+      }
+    });
+  }, [dispatch]);
 
-  // if (loading) {
-  //   return <Loading />;
-  // }
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <Suspense fallback={Loading}>

@@ -22,7 +22,8 @@ import {
   Tasks,
   FloatingButton,
   Modal,
-  CardBody
+  CardBody,
+  ErrorSnackbar
 } from '../components';
 import { AppContext } from '../contexts';
 import * as FirestoreService from '../services/firebase';
@@ -42,6 +43,7 @@ export const Dashboard = () => {
   const [todayMassages, setTodayMassages] = useState([]);
   const [massageEditable, setMassageEditable] = useState({});
   const { user, language } = useContext(AppContext);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamMassages(user.id, date, {
@@ -199,6 +201,7 @@ export const Dashboard = () => {
         onClose={() => setModalVisible(false)}
         massageEditable={massageEditable}
       />
+      {error ? <ErrorSnackbar key={new Date()} message={error} /> : null}
     </div>
   );
 };

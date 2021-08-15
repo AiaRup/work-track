@@ -78,7 +78,7 @@ export const getUserById = (id) => {
 };
 
 export const logout = () => {
-  firebaseAuth.signOut();
+  return firebaseAuth.signOut();
 };
 
 // Firestore - DB

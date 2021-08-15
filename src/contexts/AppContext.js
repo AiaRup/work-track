@@ -7,10 +7,6 @@ import { reducer } from '../reducers';
 export const AppContext = createContext();
 
 export const initialState = {
-  // user: {
-  //   id: '9ABE433E-F36B-1410-8D5F-00823E048C64',
-  //   name: 'Aia Rupsom'
-  // },
   user: null,
   language: 'th',
   translations: getTranslation('th')

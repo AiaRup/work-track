@@ -21,7 +21,7 @@ import styles from '../assets/jss/material-dashboard-react/components/sidebarSty
 import ThaiFlag from '../assets/img/thai-flag.png';
 import EnglishFlag from '../assets/img/english-flag.png';
 import { AppContext } from '../contexts/AppContext.js';
-import { logout as firebaseLogout } from '../services/firebase';
+import { logout } from '../services/firebase';
 
 const useStyles = makeStyles(styles);
 
@@ -51,8 +51,8 @@ export const Sidebar = ({
     }
   };
 
-  const logout = () => {
-    firebaseLogout().then(() => {
+  const logoutUser = () => {
+    logout().then(() => {
       dispatch({ type: 'LOGOUT' });
       history.push({
         pathname: '/login'
@@ -156,7 +156,7 @@ export const Sidebar = ({
           <FormattedMessage id='english' />
         </Button>
       </div>
-      <Button onClick={logout} className={classes.logoutButton}>
+      <Button onClick={logoutUser} className={classes.logoutButton}>
         <ExitToAppIcon className={classes.itemIcon} />
         <FormattedMessage id='logout' />
       </Button>

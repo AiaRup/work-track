@@ -169,8 +169,8 @@ export const Dashboard = () => {
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                <FormattedMessage id='hours' />: <b>{calculateTotalHours()}</b>{' '}
-                /h
+                <FormattedMessage id='hours' />:{' '}
+                <span className={classes.bold}>{calculateTotalHours()}</span> /h
               </div>
             </CardFooter>
           </Card>

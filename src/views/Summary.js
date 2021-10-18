@@ -114,7 +114,7 @@ export const Summary = () => {
               <div className={classes.stats}>
                 <DateRange />
                 <FormattedMessage id='working_days' />:
-                <b>{monthMassages.length}</b>
+                <span className={classes.bold}>{monthMassages.length}</span>
               </div>
             </CardFooter>
           </Card>
@@ -134,7 +134,10 @@ export const Summary = () => {
               <div className={classes.stats}>
                 <Update />
                 <FormattedMessage id='hours' />:{' '}
-                <b>{calculateTotalHours(calculateTotalMinutes())}</b> /h
+                <span className={classes.bold}>
+                  {calculateTotalHours(calculateTotalMinutes())}
+                </span>{' '}
+                /h
               </div>
             </CardFooter>
           </Card>

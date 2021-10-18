@@ -49,7 +49,7 @@ const translations = {
   dashboard: 'Dashboard',
   summary: 'Summary',
   profile: 'Profile',
-  thai: 'Thai',
+  thai: 'ภาษาไทย',
   english: 'English',
 
   //dashboard

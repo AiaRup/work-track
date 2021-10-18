@@ -50,7 +50,7 @@ const translations = {
   summary: 'รายงานเดือนและปี',
   profile: 'ข้อมูลส่วนตัว',
   thai: 'ภาษาไทย',
-  english: 'ภาษาอังกฤษ',
+  english: 'English',
 
   // dashboard
   today: 'วันนี้',

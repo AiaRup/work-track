@@ -190,7 +190,7 @@ const sidebarStyle = (theme) => ({
   gray: {
     backgroundColor: grayColor[0],
     boxShadow:
-      '0 12px 20px -10px rgba(' +
+      '0 2px 4px -10px rgba(' +
       hexToRgb(grayColor[0]) +
       ',.28), 0 4px 20px 0 rgba(' +
       hexToRgb(blackColor) +
@@ -200,7 +200,7 @@ const sidebarStyle = (theme) => ({
     '&:hover,&:focus': {
       backgroundColor: grayColor[0],
       boxShadow:
-        '0 12px 20px -10px rgba(' +
+        '0 2px 4px -10px rgba(' +
         hexToRgb(grayColor[0]) +
         ',.28), 0 4px 20px 0 rgba(' +
         hexToRgb(blackColor) +

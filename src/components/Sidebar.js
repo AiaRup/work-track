@@ -63,7 +63,7 @@ export const Sidebar = ({
   const links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
-        var activePro = ' ';
+        let activePro = ' ';
 
         const listItemClasses = classNames({
           [' ' + classes[color]]: activeRoute(prop.layout + prop.path)

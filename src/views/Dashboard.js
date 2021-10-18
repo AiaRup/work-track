@@ -22,12 +22,12 @@ import {
   Tasks,
   FloatingButton,
   Modal,
-  CardBody,
-  ErrorSnackbar
+  CardBody
 } from '../components';
 import { AppContext } from '../contexts';
 import * as FirestoreService from '../services/firebase';
 import styles from '../assets/jss/material-dashboard-react/views/dashboardStyle.js';
+import { useNotification } from '../hooks';
 
 const useStyles = makeStyles(styles);
 
@@ -43,7 +43,7 @@ export const Dashboard = () => {
   const [todayMassages, setTodayMassages] = useState([]);
   const [massageEditable, setMassageEditable] = useState({});
   const { user, language } = useContext(AppContext);
-  const [error, setError] = useState('');
+  const { addError } = useNotification();
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamMassages(user.id, date, {
@@ -57,15 +57,17 @@ export const Dashboard = () => {
           )
         );
       },
-      error: (e) => console.log('error streaming', e)
+      error: () => addError('error_list_massage')
     });
     return unsubscribe;
-  }, [date, user.id]);
+  }, [date, user.id, addError]);
 
   const handleMassageInsert = ({ type, minutes, id }) => {
     setModalVisible(false);
     if (id) {
-      FirestoreService.updateMassage(id, { type, minutes });
+      FirestoreService.updateMassage(id, { type, minutes }).catch(() =>
+        addError('error_update_massage')
+      );
       setMassageEditable({});
     } else {
       FirestoreService.addMassage({
@@ -74,7 +76,7 @@ export const Dashboard = () => {
         id: uuidv4(),
         user: user.id,
         date: dayjs(date)
-      });
+      }).catch(() => addError('error_add_massage'));
     }
   };
 
@@ -201,7 +203,6 @@ export const Dashboard = () => {
         onClose={() => setModalVisible(false)}
         massageEditable={massageEditable}
       />
-      {error ? <ErrorSnackbar key={new Date()} message={error} /> : null}
     </div>
   );
 };

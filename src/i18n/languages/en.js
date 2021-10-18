@@ -80,7 +80,12 @@ const translations = {
 
   // profile
   settings: 'Settings',
-  change_password: 'Change password'
+  change_password: 'Change password',
+
+  // errors
+  error_update_massage: 'Error updating massage details',
+  error_add_massage: 'Error adding a massage',
+  error_list_massage: 'Error getting list of massages'
 };
 
 export default translations;

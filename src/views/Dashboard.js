@@ -94,7 +94,7 @@ export const Dashboard = () => {
     for (const element of todayMassages) {
       total += element.minutes;
     }
-    const displayTotal = (total / 60) * 100;
+    const displayTotal = (total / 60) * (user.hourSalary || 100);
     return displayTotal % 1 === 0 ? displayTotal : displayTotal.toFixed(2);
   };
 

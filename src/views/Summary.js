@@ -49,7 +49,7 @@ export const Summary = () => {
     for (const element of monthMassages) {
       total += element.minutes;
     }
-    const displayTotal = (total / 60) * 100;
+    const displayTotal = (total / 60) * (user.hourSalary || 100);
     return displayTotal % 1 === 0 ? displayTotal : displayTotal.toFixed(2);
   };
 

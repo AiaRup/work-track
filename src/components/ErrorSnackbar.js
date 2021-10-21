@@ -13,14 +13,8 @@ export const ErrorSnackbar = () => {
   const [open, setOpen] = useState(false);
   const { error, removeError } = useNotification();
 
-  console.log('error', error);
-
   useEffect(() => {
-    if (error) {
-      setOpen(true);
-    } else {
-      setOpen(false);
-    }
+    setOpen(error ? true : false);
   }, [error]);
 
   function handleClose() {

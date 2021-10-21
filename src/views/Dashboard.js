@@ -27,7 +27,7 @@ import {
 import { AppContext } from '../contexts';
 import * as FirestoreService from '../services/firebase';
 import styles from '../assets/jss/material-dashboard-react/views/dashboardStyle.js';
-import { useNotification } from '../hooks';
+import { useNotification, useNotifier } from '../hooks';
 
 const useStyles = makeStyles(styles);
 
@@ -80,9 +80,12 @@ export const Dashboard = () => {
     }
   };
 
-  const handleMassageDelete = (id) => {
-    FirestoreService.deleteMassage(id);
-  };
+  const handleMassageDelete = useNotifier({
+    action: (id) => {
+      return FirestoreService.deleteMassage(id);
+    },
+    fail: 'error_delete_massage'
+  });
 
   const handleMassageEdit = (item) => {
     setMassageEditable(item);

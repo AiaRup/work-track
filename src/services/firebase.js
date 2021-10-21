@@ -77,6 +77,18 @@ export const getUserById = (id) => {
   return db.collection(USERS_COLLECTION).doc(id).get();
 };
 
+export const updateUserDetails = (id, user) => {
+  return db
+    .collection(USERS_COLLECTION)
+    .where('id', '==', id)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.update(user);
+      });
+    });
+};
+
 export const logout = () => {
   return firebaseAuth.signOut();
 };

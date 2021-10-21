@@ -85,7 +85,9 @@ const translations = {
   // errors
   error_update_massage: 'เกิดข้อผิดพลาดในการอัปเดตรายละเอียดการนวด',
   error_add_massage: 'เกิดข้อผิดพลาดในการเพิ่มการนวด',
-  error_list_massage: 'เกิดข้อผิดพลาดในการรับรายการการนวด'
+  error_list_massage: 'เกิดข้อผิดพลาดในการรับรายการการนวด',
+  error_delete_massage: 'เกิดข้อผิดพลาดในการลบการนวด',
+  error_update_user_details: 'เกิดข้อผิดพลาดในการอัปเดตรายละเอียดผู้ใช้'
 };
 
 export default translations;

@@ -5,6 +5,8 @@ import { FormattedMessage } from 'react-intl';
 
 import styles from '../assets/jss/material-dashboard-react/components/profileSettingsStyle.js';
 import { AppContext } from '../contexts';
+import * as FirestoreService from '../services/firebase';
+import { useNotifier } from '../hooks';
 
 const useStyles = makeStyles(styles);
 
@@ -17,8 +19,29 @@ export const ProfileSettings = () => {
   const [hourSalary, setHourSalary] = useState(user.hourSalary);
   const [phone, setPhone] = useState(user.phoneNumber);
 
+  const updateUser = useNotifier({
+    action: async (e) => {
+      e.preventDefault();
+      await FirestoreService.updateUserDetails(user.id, {
+        firstName,
+        lastName,
+        hourSalary
+      });
+      dispatch({
+        type: 'SET_USER',
+        payload: {
+          ...user,
+          firstName,
+          lastName,
+          hourSalary
+        }
+      });
+    },
+    fail: 'error_update_user_details'
+  });
+
   return (
-    <form className={classes.root} noValidate>
+    <form className={classes.root} onSubmit={updateUser}>
       <Grid item xs={12}>
         <TextField
           autoComplete='fname'
@@ -55,6 +78,7 @@ export const ProfileSettings = () => {
           id='phone'
           label={<FormattedMessage id='phone' />}
           name='phone'
+          disabled
           defaultValue={phone}
           inputProps={{ readOnly: true }}
           className={classes.input}
@@ -66,6 +90,7 @@ export const ProfileSettings = () => {
           variant='outlined'
           fullWidth
           id='salary-hour'
+          type='number'
           defaultValue={hourSalary}
           label={<FormattedMessage id='wage_for_hour' />}
           name='salary-hour'
@@ -77,7 +102,7 @@ export const ProfileSettings = () => {
         type='submit'
         variant='contained'
         className={classes.submit}
-        disabled
+        disabled={!lastName || !firstName || !hourSalary}
       >
         <FormattedMessage id='save_changes' />
       </Button>

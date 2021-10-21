@@ -85,7 +85,9 @@ const translations = {
   // errors
   error_update_massage: 'Error updating massage details',
   error_add_massage: 'Error adding a massage',
-  error_list_massage: 'Error getting list of massages'
+  error_list_massage: 'Error getting list of massages',
+  error_delete_massage: 'Error deleting a massage',
+  error_update_user_details: 'Error updating user details'
 };
 
 export default translations;

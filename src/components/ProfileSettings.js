@@ -37,6 +37,7 @@ export const ProfileSettings = () => {
         }
       });
     },
+    success: 'details_updated_successfully',
     fail: 'error_update_user_details'
   });
 

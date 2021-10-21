@@ -43,7 +43,7 @@ export const Dashboard = () => {
   const [todayMassages, setTodayMassages] = useState([]);
   const [massageEditable, setMassageEditable] = useState({});
   const { user, language } = useContext(AppContext);
-  const { addError } = useNotification();
+  const { addNotification } = useNotification();
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamMassages(user.id, date, {
@@ -57,16 +57,16 @@ export const Dashboard = () => {
           )
         );
       },
-      error: () => addError('error_list_massage')
+      error: () => addNotification('error_list_massage', 'error')
     });
     return unsubscribe;
-  }, [date, user.id, addError]);
+  }, [date, user.id, addNotification]);
 
   const handleMassageInsert = ({ type, minutes, id }) => {
     setModalVisible(false);
     if (id) {
       FirestoreService.updateMassage(id, { type, minutes }).catch(() =>
-        addError('error_update_massage')
+        addNotification('error_update_massage', 'error')
       );
       setMassageEditable({});
     } else {
@@ -76,7 +76,7 @@ export const Dashboard = () => {
         id: uuidv4(),
         user: user.id,
         date: dayjs(date)
-      }).catch(() => addError('error_add_massage'));
+      }).catch(() => addNotification('error_add_massage', 'error'));
     }
   };
 

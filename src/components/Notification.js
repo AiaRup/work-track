@@ -9,16 +9,16 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
 }
 
-export const ErrorSnackbar = () => {
+export const Notification = () => {
   const [open, setOpen] = useState(false);
-  const { error, removeError } = useNotification();
+  const { error, success, removeNotification } = useNotification();
 
   useEffect(() => {
-    setOpen(error ? true : false);
-  }, [error]);
+    setOpen(error || success ? true : false);
+  }, [error, success]);
 
   function handleClose() {
-    removeError();
+    removeNotification();
   }
 
   return (
@@ -28,8 +28,10 @@ export const ErrorSnackbar = () => {
       onClose={handleClose}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
     >
-      <Alert severity='error' onClose={handleClose}>
-        <FormattedMessage id={error ? error?.message : 'Error'} />
+      <Alert severity={error ? 'error' : 'success'} onClose={handleClose}>
+        <FormattedMessage
+          id={error ? error?.message : success ? success?.message : 'done'}
+        />
       </Alert>
     </Snackbar>
   );

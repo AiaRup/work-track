@@ -2,20 +2,25 @@ import { useCallback } from 'react';
 
 import { useNotification } from './';
 
-export const useNotifier = ({ action, fail }) => {
-  const { addError } = useNotification();
+export const useNotifier = ({ action, fail, success }) => {
+  const { addNotification } = useNotification();
 
   return useCallback(
     (...args) => {
       return action(...args)
-        .then((result) => result)
+        .then((result) => {
+          if (success) {
+            addNotification(success, 'success');
+          }
+          return result;
+        })
         .catch((e) => {
           console.log('Error:', e);
           if (fail) {
-            addError(fail);
+            addNotification(fail, 'error');
           }
         });
     },
-    [action, fail, addError]
+    [action, fail, success, addNotification]
   );
 };

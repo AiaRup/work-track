@@ -3,9 +3,9 @@ import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DayjsUtils from '@date-io/dayjs';
 
-import { AppProvider, ErrorProvider } from './contexts';
+import { AppProvider, NotificationProvider } from './contexts';
 import { Router } from './Router';
-import { ErrorSnackbar } from './components';
+import { Notification } from './components';
 
 const theme = createTheme({
   palette: {
@@ -18,10 +18,10 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <MuiPickersUtilsProvider utils={DayjsUtils}>
         <AppProvider>
-          <ErrorProvider>
+          <NotificationProvider>
             <Router />
-            <ErrorSnackbar key={new Date()} />
-          </ErrorProvider>
+            <Notification key={new Date()} />
+          </NotificationProvider>
         </AppProvider>
       </MuiPickersUtilsProvider>
     </ThemeProvider>

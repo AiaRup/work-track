@@ -1,26 +1,40 @@
 import React, { useState, useCallback } from 'react';
 
-export const ErrorContext = React.createContext({
+export const NotificationContext = React.createContext({
   error: null,
-  addError: () => {},
-  removeError: () => {}
+  success: null,
+  addNotification: () => {},
+  removeNotification: () => {}
 });
 
-export const ErrorProvider = ({ children }) => {
+export const NotificationProvider = ({ children }) => {
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
-  const removeError = () => setError(null);
-  const addError = (message, status) => setError({ message, status });
+  const removeNotification = () => {
+    setError(null);
+    setSuccess(null);
+  };
+
+  const addNotification = (message, type) => {
+    type === 'error'
+      ? setError({ message, type })
+      : setSuccess({ message, type });
+  };
 
   const contextValue = {
     error,
-    addError: useCallback((message, status) => addError(message, status), []),
-    removeError: useCallback(() => removeError(), [])
+    success,
+    addNotification: useCallback(
+      (message, type) => addNotification(message, type),
+      []
+    ),
+    removeNotification: useCallback(() => removeNotification(), [])
   };
 
   return (
-    <ErrorContext.Provider value={contextValue}>
+    <NotificationContext.Provider value={contextValue}>
       {children}
-    </ErrorContext.Provider>
+    </NotificationContext.Provider>
   );
 };

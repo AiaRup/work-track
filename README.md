@@ -58,6 +58,7 @@ The app supports the following languages:
 ### Built With
 
 - [React](https://reactjs.org/)
+- [Netlify](https://www.netlify.com/)
 - [React-intl](https://www.npmjs.com/package/react-intl)
 - [Material-ui](https://mui.com/)
 - [Material Dashboard React](https://github.com/creativetimofficial/material-dashboard-react)

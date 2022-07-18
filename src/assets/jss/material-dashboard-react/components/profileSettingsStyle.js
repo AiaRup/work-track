@@ -29,6 +29,7 @@ const profileSettingsStyle = (theme) => ({
   input: { marginBottom: theme.spacing(3) },
   submit: {
     marginBottom: theme.spacing(3),
+    marginTop: theme.spacing(3),
     background:
       'linear-gradient(60deg, ' + dangerColor[1] + ', ' + dangerColor[2] + ')',
     ...dangerBoxShadow,

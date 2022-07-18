@@ -79,6 +79,18 @@ const dashboardStyle = {
   },
   dateWrapper: {
     marginBottom: '15px'
+  },
+  editButton: {
+    width: '16px',
+    height: '16px',
+    padding: '0',
+    '&:hover,&:focus,&:active,&:visited': {
+      backgroundColor: 'transparent'
+    }
+  },
+  editButtonIcon: {
+    width: '15px',
+    height: '15px'
   }
 };
 

@@ -59,6 +59,8 @@ export const onCodeSubmit = async (e, code) => {
   }
 };
 
+// USERS
+
 const USERS_COLLECTION = 'users';
 
 export const addUser = (user) => {
@@ -81,7 +83,7 @@ export const logout = () => {
   return firebaseAuth.signOut();
 };
 
-// Firestore - DB
+// MASSAGES
 const MASSAGES_COLLECTION = 'massages';
 
 const createTimpstamp = (date) => {
@@ -163,4 +165,40 @@ export const streamMassages = (userId, date, observer) => {
     .where('user', '==', userId)
     .orderBy('date')
     .onSnapshot(observer);
+};
+
+// TIPS
+const TIPS_COLLECTION = 'tips';
+
+export const streamTips = (userId, date, observer) => {
+  const startDate = dayjs(date).startOf('date').toDate();
+  const endDate = dayjs(date).endOf('date').toDate();
+
+  return db
+    .collection(TIPS_COLLECTION)
+    .where('date', '>=', createTimpstamp(startDate))
+    .where('date', '<=', createTimpstamp(endDate))
+    .where('user', '==', userId)
+    .orderBy('date')
+    .onSnapshot(observer);
+};
+
+export const addTips = (tip) => {
+  return db.collection(TIPS_COLLECTION).add({
+    ...tip,
+    date: createTimpstamp(tip.date.toDate()),
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+};
+
+export const updateTips = (id, tip) => {
+  return db
+    .collection(TIPS_COLLECTION)
+    .where('id', '==', id)
+    .get()
+    .then(function (querySnapshot) {
+      querySnapshot.forEach(function (doc) {
+        doc.ref.update(tip);
+      });
+    });
 };

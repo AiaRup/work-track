@@ -58,6 +58,7 @@ const translations = {
   minutes: 'Minutes',
   hours: 'Hours',
   massages: 'Massages',
+  tip: 'Tip',
 
   // tasks
   no_massages_yet: 'There is no massages yet',

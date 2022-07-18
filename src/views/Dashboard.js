@@ -4,6 +4,9 @@ import Money from '@material-ui/icons/AttachMoneyOutlined';
 import DateRange from '@material-ui/icons/DateRange';
 import Update from '@material-ui/icons/Update';
 import Alarm from '@material-ui/icons/AlarmOutlined';
+import Tip from '@material-ui/icons/MoneyOutlined';
+import Edit from '@material-ui/icons/EditOutlined';
+import { IconButton } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import * as dayjs from 'dayjs';
@@ -22,6 +25,7 @@ import {
   Tasks,
   FloatingButton,
   Modal,
+  TipsModal,
   CardBody,
   ErrorSnackbar
 } from '../components';
@@ -40,7 +44,9 @@ export const Dashboard = () => {
   const classes = useStyles();
   const [date, setDate] = useState(dayjs());
   const [modalVisible, setModalVisible] = useState(false);
+  const [tipsModalVisible, setTipsModalVisible] = useState(false);
   const [todayMassages, setTodayMassages] = useState([]);
+  const [todayTips, setTodayTips] = useState(undefined);
   const [massageEditable, setMassageEditable] = useState({});
   const { user, language } = useContext(AppContext);
   const [error, setError] = useState('');
@@ -58,6 +64,23 @@ export const Dashboard = () => {
         );
       },
       error: (e) => console.log('error streaming', e)
+    });
+    return unsubscribe;
+  }, [date, user.id]);
+
+  useEffect(() => {
+    const unsubscribe = FirestoreService.streamTips(user.id, date, {
+      next: (querySnapshot) => {
+        const tips = querySnapshot.docs.map((docSnapshot) =>
+          docSnapshot.data()
+        );
+        if (tips && tips[0]) {
+          setTodayTips(tips[0]);
+        } else {
+          setTodayTips(undefined);
+        }
+      },
+      error: (e) => console.log('error streaming tips', e)
     });
     return unsubscribe;
   }, [date, user.id]);
@@ -85,6 +108,21 @@ export const Dashboard = () => {
   const handleMassageEdit = (item) => {
     setMassageEditable(item);
     setModalVisible(true);
+  };
+
+  const handleTipsInsert = ({ amount, id }) => {
+    setTipsModalVisible(false);
+    if (id) {
+      FirestoreService.updateTips(id, { amount });
+      setTodayTips(undefined);
+    } else {
+      FirestoreService.addTips({
+        amount,
+        id: uuidv4(),
+        user: user.id,
+        date: dayjs(date)
+      });
+    }
   };
 
   const calculateTotalMoney = () => {
@@ -175,6 +213,34 @@ export const Dashboard = () => {
             </CardFooter>
           </Card>
         </GridItem>
+        <GridItem xs={12} sm={6} md={3}>
+          <Card>
+            <CardHeader color='warning' stats icon>
+              <CardIcon color='warning'>
+                <Tip />
+              </CardIcon>
+              <p className={classes.cardCategory}>
+                <FormattedMessage id='tip' />
+              </p>
+              <h3 className={classes.cardTitle}>
+                {todayTips ? todayTips.amount : 0}
+              </h3>
+            </CardHeader>
+            <CardFooter stats>
+              <div className={classes.stats}>
+                <DateRange />
+                <FormattedMessage id='today' />
+              </div>
+              <IconButton
+                aria-label='Edit'
+                className={classes.editButton}
+                onClick={() => setTipsModalVisible(true)}
+              >
+                <Edit className={classes.editButtonIcon + ' ' + classes.edit} />
+              </IconButton>
+            </CardFooter>
+          </Card>
+        </GridItem>
       </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
@@ -200,6 +266,12 @@ export const Dashboard = () => {
         onOk={handleMassageInsert}
         onClose={() => setModalVisible(false)}
         massageEditable={massageEditable}
+      />
+      <TipsModal
+        visible={tipsModalVisible}
+        onOk={handleTipsInsert}
+        onClose={() => setTipsModalVisible(false)}
+        tips={todayTips}
       />
       {error ? <ErrorSnackbar key={new Date()} message={error} /> : null}
     </div>

@@ -58,6 +58,7 @@ const translations = {
   minutes: 'นาที',
   hours: 'ชั่วโมง',
   massages: 'บริการนวด',
+  tip: 'เคล็ดลับ',
 
   // tasks
   no_massages_yet: 'ยังไม่มีบริการนวดค่ะ',

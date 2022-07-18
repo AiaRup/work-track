@@ -100,6 +100,7 @@ export default function SignUp() {
                 variant='outlined'
                 fullWidth
                 id='phone'
+                type='number'
                 label={<FormattedMessage id='phone' />}
                 name='phone'
                 inputProps={{ readOnly: true }}
@@ -111,6 +112,7 @@ export default function SignUp() {
                 variant='outlined'
                 fullWidth
                 id='salary-hour'
+                type='number'
                 label={<FormattedMessage id='wage_for_hour' />}
                 name='salary-hour'
                 autoComplete='salaryHour'

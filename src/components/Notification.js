@@ -3,21 +3,22 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import { FormattedMessage } from 'react-intl';
 
+import { useNotification } from '../hooks';
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant='filled' {...props} />;
 }
-export const ErrorSnackbar = ({ message = 'error' }) => {
-  const [open, setOpen] = useState(true);
+
+export const Notification = () => {
+  const [open, setOpen] = useState(false);
+  const { error, success, removeNotification } = useNotification();
 
   useEffect(() => {
-    setOpen(true);
-  }, [message]);
+    setOpen(error || success ? true : false);
+  }, [error, success]);
 
-  function handleClose(event, reason) {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
+  function handleClose() {
+    removeNotification();
   }
 
   return (
@@ -27,8 +28,10 @@ export const ErrorSnackbar = ({ message = 'error' }) => {
       onClose={handleClose}
       anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
     >
-      <Alert severity='error' onClose={handleClose}>
-        <FormattedMessage id={message} />
+      <Alert severity={error ? 'error' : 'success'} onClose={handleClose}>
+        <FormattedMessage
+          id={error ? error?.message : success ? success?.message : 'done'}
+        />
       </Alert>
     </Snackbar>
   );

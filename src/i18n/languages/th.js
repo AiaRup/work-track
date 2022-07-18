@@ -50,7 +50,7 @@ const translations = {
   summary: 'รายงานเดือนและปี',
   profile: 'ข้อมูลส่วนตัว',
   thai: 'ภาษาไทย',
-  english: 'ภาษาอังกฤษ',
+  english: 'English',
 
   // dashboard
   today: 'วันนี้',
@@ -81,7 +81,17 @@ const translations = {
 
   // profile
   settings: 'การตั้งค่าผู้ใช้',
-  change_password: 'เปลี่ยนรหัสผ่าน'
+  change_password: 'เปลี่ยนรหัสผ่าน',
+
+  // errors
+  error_update_massage: 'เกิดข้อผิดพลาดในการอัปเดตรายละเอียดการนวด',
+  error_add_massage: 'เกิดข้อผิดพลาดในการเพิ่มการนวด',
+  error_list_massage: 'เกิดข้อผิดพลาดในการรับรายการการนวด',
+  error_delete_massage: 'เกิดข้อผิดพลาดในการลบการนวด',
+  error_update_user_details: 'เกิดข้อผิดพลาดในการอัปเดตรายละเอียดผู้ใช้',
+
+  // success
+  details_updated_successfully: 'อัพเดทรายละเอียดเรียบร้อยแล้ว'
 };
 
 export default translations;

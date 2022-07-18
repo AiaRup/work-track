@@ -32,6 +32,7 @@ import {
 import { AppContext } from '../contexts';
 import * as FirestoreService from '../services/firebase';
 import styles from '../assets/jss/material-dashboard-react/views/dashboardStyle.js';
+import { useNotification, useNotifier } from '../hooks';
 
 const useStyles = makeStyles(styles);
 
@@ -49,7 +50,7 @@ export const Dashboard = () => {
   const [todayTips, setTodayTips] = useState(undefined);
   const [massageEditable, setMassageEditable] = useState({});
   const { user, language } = useContext(AppContext);
-  const [error, setError] = useState('');
+  const { addNotification } = useNotification();
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamMassages(user.id, date, {
@@ -63,10 +64,10 @@ export const Dashboard = () => {
           )
         );
       },
-      error: (e) => console.log('error streaming', e)
+      error: () => addNotification('error_list_massage', 'error')
     });
     return unsubscribe;
-  }, [date, user.id]);
+  }, [date, user.id, addNotification]);
 
   useEffect(() => {
     const unsubscribe = FirestoreService.streamTips(user.id, date, {
@@ -88,7 +89,9 @@ export const Dashboard = () => {
   const handleMassageInsert = ({ type, minutes, id }) => {
     setModalVisible(false);
     if (id) {
-      FirestoreService.updateMassage(id, { type, minutes });
+      FirestoreService.updateMassage(id, { type, minutes }).catch(() =>
+        addNotification('error_update_massage', 'error')
+      );
       setMassageEditable({});
     } else {
       FirestoreService.addMassage({
@@ -97,13 +100,16 @@ export const Dashboard = () => {
         id: uuidv4(),
         user: user.id,
         date: dayjs(date)
-      });
+      }).catch(() => addNotification('error_add_massage', 'error'));
     }
   };
 
-  const handleMassageDelete = (id) => {
-    FirestoreService.deleteMassage(id);
-  };
+  const handleMassageDelete = useNotifier({
+    action: (id) => {
+      return FirestoreService.deleteMassage(id);
+    },
+    fail: 'error_delete_massage'
+  });
 
   const handleMassageEdit = (item) => {
     setMassageEditable(item);
@@ -130,7 +136,7 @@ export const Dashboard = () => {
     for (const element of todayMassages) {
       total += element.minutes;
     }
-    const displayTotal = (total / 60) * 100;
+    const displayTotal = (total / 60) * (user.hourSalary || 100);
     return displayTotal % 1 === 0 ? displayTotal : displayTotal.toFixed(2);
   };
 
@@ -207,8 +213,8 @@ export const Dashboard = () => {
             <CardFooter stats>
               <div className={classes.stats}>
                 <Update />
-                <FormattedMessage id='hours' />: <b>{calculateTotalHours()}</b>{' '}
-                /h
+                <FormattedMessage id='hours' />:{' '}
+                <span className={classes.bold}>{calculateTotalHours()}</span> /h
               </div>
             </CardFooter>
           </Card>
@@ -273,7 +279,6 @@ export const Dashboard = () => {
         onClose={() => setTipsModalVisible(false)}
         tips={todayTips}
       />
-      {error ? <ErrorSnackbar key={new Date()} message={error} /> : null}
     </div>
   );
 };

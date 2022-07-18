@@ -80,6 +80,10 @@ const dashboardStyle = {
   dateWrapper: {
     marginBottom: '15px'
   },
+  bold: {
+    marginLeft: '5px',
+    fontWeight: 'bold'
+  },
   editButton: {
     width: '16px',
     height: '16px',

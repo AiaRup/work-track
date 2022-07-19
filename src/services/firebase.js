@@ -96,6 +96,7 @@ export const logout = () => {
 };
 
 // MASSAGES
+
 const MASSAGES_COLLECTION = 'massages';
 
 const createTimpstamp = (date) => {
@@ -180,6 +181,7 @@ export const streamMassages = (userId, date, observer) => {
 };
 
 // TIPS
+
 const TIPS_COLLECTION = 'tips';
 
 export const streamTips = (userId, date, observer) => {
@@ -213,4 +215,28 @@ export const updateTips = (id, tip) => {
         doc.ref.update(tip);
       });
     });
+};
+
+export const getTipsByDateRange = async (userId, date, type = 'date') => {
+  const startDate = dayjs(date).startOf(type).toDate();
+  const endDate = dayjs(date).endOf(type).toDate();
+  const snapshot = await db
+    .collection(TIPS_COLLECTION)
+    .where('date', '>=', createTimpstamp(startDate))
+    .where('date', '<=', createTimpstamp(endDate))
+    .where('user', '==', userId)
+    .get();
+  const arrayWithDates = snapshot.docs.map((doc) => {
+    const data = doc.data();
+    data.date = dayjs(data.date.toDate()).format('DD/MM');
+
+    return data;
+  });
+
+  const total = snapshot.docs.reduce((previousValue, currentValue) => {
+    const data = currentValue.data();
+    return previousValue + Number(data.amount);
+  }, 0);
+
+  return total;
 };

@@ -4,6 +4,7 @@ import Money from '@material-ui/icons/AttachMoneyOutlined';
 import DateRange from '@material-ui/icons/DateRange';
 import Update from '@material-ui/icons/Update';
 import Alarm from '@material-ui/icons/AlarmOutlined';
+import Tip from '@material-ui/icons/MoneyOutlined';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import * as dayjs from 'dayjs';
 import DateFnsUtils from '@date-io/date-fns';
@@ -36,12 +37,19 @@ export const Summary = () => {
   const classes = useStyles();
   const [month, setMonth] = useState(new Date());
   const [monthMassages, setMonthMassages] = useState([]);
+  const [monthTips, setMonthTips] = useState([]);
   const { user, language } = useContext(AppContext);
 
   useEffect(() => {
     FirestoreService.getMassagesByDateRange(user.id, month, 'month')
       .then((data) => setMonthMassages(data))
       .catch((e) => console.log('error getting month massages', e));
+  }, [month, user.id]);
+
+  useEffect(() => {
+    FirestoreService.getTipsByDateRange(user.id, month, 'month')
+      .then((data) => setMonthTips(data))
+      .catch((e) => console.log('error getting month tips', e));
   }, [month, user.id]);
 
   const calculateTotalMoney = () => {
@@ -138,6 +146,26 @@ export const Summary = () => {
                   {calculateTotalHours(calculateTotalMinutes())}
                 </span>{' '}
                 /h
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={6} md={3}>
+          <Card>
+            <CardHeader color='danger' stats icon>
+              <CardIcon color='danger'>
+                <Tip />
+              </CardIcon>
+              <p className={classes.cardCategory}>
+                <FormattedMessage id='tip' />
+              </p>
+              <h3 className={classes.cardTitle}>{monthTips}&#8362;</h3>
+            </CardHeader>
+            <CardFooter stats>
+              <div className={classes.stats}>
+                <DateRange />
+                <FormattedMessage id='working_days' />:
+                <span className={classes.bold}>{monthMassages.length}</span>
               </div>
             </CardFooter>
           </Card>

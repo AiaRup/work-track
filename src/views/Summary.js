@@ -195,7 +195,9 @@ export const Summary = () => {
                   m.date,
                   m.minutes,
                   `${calculateTotalHours(m.minutes)} /h`,
-                  `${roundNumber((m.minutes / 60) * 100)} ₪`
+                  `${roundNumber(
+                    (m.minutes / 60) * (user.hourSalary || 100)
+                  )} ₪`
                 ])}
               />
             </CardBody>

@@ -60,7 +60,7 @@ export const Dashboard = () => {
         );
         setTodayMassages(
           updatedMassages?.sort(
-            (a, b) => a.createdAt.toDate() - b.createdAt.toDate()
+            (a, b) => a.createdAt?.toDate() - b.createdAt?.toDate()
           )
         );
       },

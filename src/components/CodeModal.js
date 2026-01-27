@@ -10,7 +10,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import { FormattedMessage } from 'react-intl';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { CustomButton } from './Button';
 import styles from '../assets/jss/material-dashboard-react/components/codeModalStyle.js';
@@ -20,7 +20,7 @@ const useStyles = makeStyles(styles);
 
 export const CodeModal = ({ visible, onClose, phone }) => {
   const classes = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [code, setCode] = useState('');
   const [focused, setFocused] = useState(false);
   const input = useRef();
@@ -58,10 +58,9 @@ export const CodeModal = ({ visible, onClose, phone }) => {
           const existingUser = snapshot.docs[0]?.data();
           console.log('existingUser', existingUser);
           if (existingUser) {
-            history.go(0); // refresh page
+            window.location.reload(); // refresh page
           } else {
-            history.push({
-              pathname: '/signup',
+            navigate('/signup', {
               state: {
                 authId: user.uid,
                 phoneNumber: `0${user.phoneNumber.slice(4)}`

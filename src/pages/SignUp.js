@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import signupStyle from '../assets/jss/material-dashboard-react/layouts/signupStyle';
@@ -22,7 +22,7 @@ const useStyles = makeStyles(signupStyle);
 export default function SignUp() {
   const classes = useStyles();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { dispatch } = useContext(AppContext);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -45,9 +45,7 @@ export default function SignUp() {
             type: 'SET_USER',
             payload: createdUser
           });
-          history.push({
-            pathname: '/dashboard'
-          });
+          navigate('/dashboard');
         } else {
           console.log('No such user!');
         }

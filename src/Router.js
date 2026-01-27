@@ -1,5 +1,5 @@
 import React, { useContext, lazy, Suspense, useEffect, useState } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from '@material-ui/icons/Dashboard';
 import Person from '@material-ui/icons/Person';
 import { FormattedMessage } from 'react-intl';
@@ -61,16 +61,18 @@ export const Router = () => {
   }
 
   return (
-    <Suspense fallback={Loading}>
+    <Suspense fallback={<Loading />}>
       <BrowserRouter>
-        {user ? (
-          <Route path='/' component={Home} />
-        ) : (
-          <Switch>
-            <Route path='/signup' component={SignUp} />
-            <Route exect path='/' component={Login} />
-          </Switch>
-        )}
+        <Routes>
+          {user ? (
+            <Route path='/*' element={<Home />} />
+          ) : (
+            <>
+              <Route path='/signup' element={<SignUp />} />
+              <Route path='/' element={<Login />} />
+            </>
+          )}
+        </Routes>
       </BrowserRouter>
     </Suspense>
   );

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import classNames from 'classnames';
-import { NavLink, useLocation, useHistory } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Drawer,
@@ -36,7 +36,7 @@ export const Sidebar = ({
   const classes = useStyles();
   const { dispatch, language } = useContext(AppContext);
   let location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   function activeRoute(routeName) {
     if (routeName === '/dashboard') {
@@ -54,9 +54,7 @@ export const Sidebar = ({
   const logoutUser = () => {
     logout().then(() => {
       dispatch({ type: 'LOGOUT' });
-      history.push({
-        pathname: '/login'
-      });
+      navigate('/login');
     });
   };
 

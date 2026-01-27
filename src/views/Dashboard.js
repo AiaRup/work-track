@@ -10,10 +10,10 @@ import { IconButton } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import * as dayjs from 'dayjs';
-import DateFnsUtils from '@date-io/date-fns';
+import DayjsUtils from '@date-io/dayjs';
 import { FormattedMessage } from 'react-intl';
-import enLocale from 'date-fns/locale/en-US';
-import thLocale from 'date-fns/locale/th';
+import 'dayjs/locale/en';
+import 'dayjs/locale/th';
 
 import {
   GridItem,
@@ -27,7 +27,6 @@ import {
   Modal,
   TipsModal,
   CardBody,
-  ErrorSnackbar
 } from '../components';
 import { AppContext } from '../contexts';
 import * as FirestoreService from '../services/firebase';
@@ -37,8 +36,8 @@ import { useNotification, useNotifier } from '../hooks';
 const useStyles = makeStyles(styles);
 
 const localeMap = {
-  en: enLocale,
-  th: thLocale
+  en: 'en',
+  th: 'th'
 };
 
 export const Dashboard = () => {
@@ -162,7 +161,7 @@ export const Dashboard = () => {
     <div>
       <div className={classes.dateWrapper}>
         <MuiPickersUtilsProvider
-          utils={DateFnsUtils}
+          utils={DayjsUtils}
           locale={localeMap[language]}
         >
           <DatePicker
@@ -170,8 +169,8 @@ export const Dashboard = () => {
             label={<FormattedMessage id='today' />}
             value={date}
             onChange={setDate}
-            maxDate={new Date()}
-            format='dd/MM/yyyy'
+            maxDate={dayjs()}
+            format='DD/MM/YYYY'
             inputVariant='outlined'
             autoOk={true}
           />

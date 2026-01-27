@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Footer, Sidebar, Navbar } from '../components';
@@ -8,22 +8,6 @@ import { Dashboard, Profile, Summary } from '../views';
 import styles from '../assets/jss/material-dashboard-react/layouts/adminStyle.js';
 
 const useStyles = makeStyles(styles);
-
-const switchRoutes = (
-  <Route
-    path='/'
-    render={({ match: { url } }) => {
-      return (
-        <>
-          <Route path={`${url}`} component={Dashboard} exact />
-          <Route path={`${url}dashboard`} component={Dashboard} />
-          <Route path={`${url}profile`} component={Profile} />
-          <Route path={`${url}summary`} component={Summary} />
-        </>
-      );
-    }}
-  />
-);
 
 export default function Home() {
   const classes = useStyles();
@@ -63,7 +47,14 @@ export default function Home() {
         />
 
         <div className={classes.content}>
-          <div className={classes.container}>{switchRoutes}</div>
+          <div className={classes.container}>
+            <Routes>
+              <Route path='/' element={<Dashboard />} />
+              <Route path='dashboard' element={<Dashboard />} />
+              <Route path='profile' element={<Profile />} />
+              <Route path='summary' element={<Summary />} />
+            </Routes>
+          </div>
         </div>
 
         <Footer />

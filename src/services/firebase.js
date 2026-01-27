@@ -30,6 +30,18 @@ import { config } from '../config';
 const app = initializeApp(config.firebase);
 const db = getFirestore(app);
 
+// Debug: Log config values
+console.log('Firebase Config:', {
+  apiKey: config.firebase.apiKey ? '✓ Set' : '✗ Missing',
+  authDomain: config.firebase.authDomain ? '✓ Set' : '✗ Missing',
+  projectId: config.firebase.projectId ? '✓ Set' : '✗ Missing',
+  storageBucket: config.firebase.storageBucket ? '✓ Set' : '✗ Missing',
+  messagingSenderId: config.firebase.messagingSenderId ? '✓ Set' : '✗ Missing',
+  appId: config.firebase.appId ? '✓ Set' : '✗ Missing',
+  measurementId: config.firebase.measurementId ? '✓ Set' : '✗ Missing'
+});
+console.log('Full config:', config.firebase);
+
 // Auth
 export const firebaseAuth = getAuth(app);
 firebaseAuth.useDeviceLanguage();
@@ -38,32 +50,70 @@ export const getCurrentUser = () => {
   return firebaseAuth.currentUser;
 };
 
-const configureRecaptcha = () => {
-  window.recaptchaVerifier = new RecaptchaVerifier(
-    'sign-in-button',
-    {
-      size: 'invisible',
-      callback: () => {
-        onPhoneNumberSubmit();
-        console.log('reCAPTCHA solved');
-      },
-      defaultCountry: 'IL'
-    },
-    firebaseAuth
-  );
+// Initialize reCAPTCHA verifier once
+let recaptchaVerifier = null;
+
+export const initializeRecaptcha = () => {
+  if (recaptchaVerifier) {
+    console.log('reCAPTCHA already initialized');
+    return recaptchaVerifier;
+  }
+
+  try {
+    console.log('Initializing reCAPTCHA...');
+    recaptchaVerifier = new RecaptchaVerifier(
+      firebaseAuth,
+      'sign-in-button',
+      {
+        size: 'invisible',
+        callback: () => {
+          console.log('reCAPTCHA solved');
+        },
+        'expired-callback': () => {
+          console.log('reCAPTCHA expired');
+          recaptchaVerifier = null; // Reset on expiry
+        },
+        appVerificationDisabledForTesting: true
+      }
+    );
+    console.log('reCAPTCHA initialized successfully');
+    return recaptchaVerifier;
+  } catch (error) {
+    console.error('Error initializing reCAPTCHA:', error);
+    recaptchaVerifier = null;
+    throw error;
+  }
 };
 
 export const onPhoneNumberSubmit = (event, phoneNumber) => {
   event.preventDefault();
-  configureRecaptcha();
-  const appVerifier = window.recaptchaVerifier;
-  signInWithPhoneNumber(firebaseAuth, `+972${phoneNumber}`, appVerifier)
-    .then((confirmationResult) => {
-      window.confirmationResult = confirmationResult;
-    })
-    .catch((error) => {
-      console.log('Error sending OTP', error);
-    });
+  console.log('Phone number submit:', phoneNumber);
+  try {
+    const appVerifier = initializeRecaptcha();
+    console.log('AppVerifier:', appVerifier);
+
+    // Remove leading zero if present
+    const cleanPhoneNumber = phoneNumber.startsWith('0')
+      ? phoneNumber.substring(1)
+      : phoneNumber;
+
+    const fullPhoneNumber = `+972${cleanPhoneNumber}`;
+    console.log('Full phone number to send:', fullPhoneNumber);
+
+    signInWithPhoneNumber(firebaseAuth, fullPhoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        console.log('OTP sent successfully');
+        window.confirmationResult = confirmationResult;
+      })
+      .catch((error) => {
+        console.error('Error sending OTP', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        recaptchaVerifier = null; // Reset on error
+      });
+  } catch (error) {
+    console.error('Error in onPhoneNumberSubmit:', error);
+  }
 };
 
 export const onCodeSubmit = async (e, code) => {

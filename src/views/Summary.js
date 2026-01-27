@@ -7,10 +7,11 @@ import Alarm from '@material-ui/icons/AlarmOutlined';
 import Tip from '@material-ui/icons/MoneyOutlined';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import * as dayjs from 'dayjs';
-import DateFnsUtils from '@date-io/date-fns';
+import DayjsUtils from '@date-io/dayjs';
 import { FormattedMessage } from 'react-intl';
-import enLocale from 'date-fns/locale/en-US';
-import thLocale from 'date-fns/locale/th';
+import 'dayjs/locale/en';
+import 'dayjs/locale/th';
+
 
 import {
   GridItem,
@@ -29,8 +30,8 @@ import styles from '../assets/jss/material-dashboard-react/views/dashboardStyle.
 const useStyles = makeStyles(styles);
 
 const localeMap = {
-  en: enLocale,
-  th: thLocale
+  en: 'en',
+  th: 'th'
 };
 
 export const Summary = () => {
@@ -87,7 +88,7 @@ export const Summary = () => {
     <div>
       <div className={classes.dateWrapper}>
         <MuiPickersUtilsProvider
-          utils={DateFnsUtils}
+          utils={DayjsUtils}
           locale={localeMap[language]}
         >
           <DatePicker
@@ -100,7 +101,7 @@ export const Summary = () => {
             inputVariant='outlined'
             autoOk={true}
             views={['year', 'month']}
-            format='MMMM yyyy'
+            format='MMMM YYYY'
           />
         </MuiPickersUtilsProvider>
       </div>
